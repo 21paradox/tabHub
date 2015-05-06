@@ -1,0 +1,24 @@
+{
+  "name": "tabHub",
+  "version": "1.0.0",
+  "description": "\"crosspage communication\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "testling": {
+    "browsers": [
+      "ie/6..latest",
+      "chrome/28..latest",
+      "firefox/16..latest",
+      "safari/latest",
+      "opera/11.0..latest",
+      "iphone/6",
+      "ipad/6",
+      "android-browser/latest"
+    ],
+     "html" : "SpecRunner.html"
+  }
+}
