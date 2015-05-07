@@ -5,28 +5,26 @@
  sync events are fired at these times
  page loads
  storage event
- page unload? 
+ page unload?
  tab crashed?
+ TODOS!!
+ 
+ IE8兼容性问题,IE8下 storage event不是 window而是 document，
+ 而且 没有Event key http://jsfiddle.net/rodneyrehm/bAhJL/
  */
-var aa, init;
+var tabHub;
 
-init = function(name, callback) {
-  var done, handleData;
+tabHub = function(name, callback) {
+  var emit, handleData, onValueArr, out;
   $(window).on('storage', function(e) {
     var key, newValue, oldValue;
     key = e.originalEvent.key;
     newValue = e.originalEvent.newValue;
     oldValue = e.originalEvent.oldValue;
-    return $(window).trigger("tabHub." + key, newValue);
+    if (key === name) {
+      return $(window).trigger("tabHub." + name, newValue);
+    }
   });
-  handleData = function(eventData) {
-    return console.log("dataReceived: " + eventData + " " + document.title);
-  };
-  done = function(data) {
-    console.log("done called " + document.title);
-    localStorage.setItem(name, "data:" + data);
-    return handleData(data);
-  };
   $(window).on("tabHub." + name, function(e, newValue) {
     var eventArr, eventData, eventType;
     if (!newValue) {
@@ -37,35 +35,64 @@ init = function(name, callback) {
     eventData = eventArr[1];
     switch (eventType) {
       case 'readable':
-        localStorage.setItem(name, 'pending:');
-        return callback(done);
-      case 'pending':
+        if (out.lastValue != null) {
+          return localStorage.setItem(name, "data:" + out.lastValue);
+        }
         break;
       case 'data':
         return handleData(eventData);
-      case 'request':
-        return localStorage.setItem(name, 'data:1111');
     }
   });
-  return {
-    run: function() {
-      localStorage.removeItem(name);
-      localStorage.setItem(name, 'request');
-      return console.log(localStorage.getItem(name));
-    },
-    destory: function() {
-      return $(window).off("tabHub." + name);
+  handleData = function(eventData) {
+    if (eventData != null) {
+      out.lastValue = eventData;
+      emit(eventData);
+      return console.log("dataReceived: " + eventData + " " + document.title);
     }
   };
+  onValueArr = [];
+  localStorage.removeItem(name);
+  localStorage.setItem(name, 'readable');
+  emit = function(retValue) {
+    var i, len, onValuecb, results;
+    out.lastValue = retValue;
+    localStorage.setItem(name, "data:" + retValue);
+    results = [];
+    for (i = 0, len = onValueArr.length; i < len; i++) {
+      onValuecb = onValueArr[i];
+      results.push(onValuecb.call(null, retValue));
+    }
+    return results;
+  };
+  setTimeout(function() {
+    var i, len, onValuecb, results;
+    console.log(out.lastValue, 'result');
+    if (out.lastValue) {
+      results = [];
+      for (i = 0, len = onValueArr.length; i < len; i++) {
+        onValuecb = onValueArr[i];
+        results.push(onValuecb.call(null, out.lastValue));
+      }
+      return results;
+    } else {
+      return callback(emit);
+    }
+  }, 20);
+  return out = {
+    destory: function() {
+      return $(window).off("tabHub." + name);
+    },
+    onValue: function(cb) {
+      onValueArr.push(cb);
+      return function() {
+        var index;
+        index = $.inArray(cb, onValueArr);
+        if (index !== -1) {
+          return onValueArr.splice(index, 1);
+        }
+      };
+    },
+    lastValue: null,
+    emit: emit
+  };
 };
-
-aa = init('aa', function (done, fail) {
-            
-    setTimeout(function() {
-        
-        done('123123123');
-        
-    }, 1000);
-});;
-
-aa.run();

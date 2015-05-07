@@ -2,13 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>mainHub</title>
-    <script src="http://cdn.staticfile.org/jquery/1.7.2/jquery.min.js"></script>
+    <script src="../lib/jquery.js"></script>
 </head>
 <script src="tabHub.js"></script>
 <body>
 
-<!--  <iframe src="sub1.html"></iframe>
-
+<!--    <iframe src="sub1.html"></iframe>
     <iframe src="sub2.html"></iframe>-->
 
     <button>dasda</button>
@@ -16,12 +15,21 @@
 
     <script>
         
+        var ee;
         
-       
-        
+       var hub = tabHub('myVal', function (emit) {
+
+           ee = emit;
+           emit('dddd')
+       });
+
+       hub.onValue(function (d) {
+           console.log(d)
+       })
+
         $('button').click(function () {
-            
-           aa.run();
+
+            ee('asdasd');
         });
 
 
