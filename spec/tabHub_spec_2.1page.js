@@ -33,6 +33,7 @@
                'spec2_main'
              );
 
+ 
         var $iframe = $('<iframe src="spec/tabHub_spec2_iframe_multiInstance.html"></iframe>');
 
         $('body').append($iframe);
@@ -83,8 +84,6 @@
                     done();
 
                 }, 30);
-
-                //done();
 
             }, 20);
 

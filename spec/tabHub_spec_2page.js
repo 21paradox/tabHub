@@ -17,67 +17,63 @@
 
         var spy = jasmine.createSpy('spy');
 
-        window.spec2_main = spy;
+        hub.noop = spy;
 
         setTimeout(function () {
 
             hub.emit('asd');
 
             expect(spy).toHaveBeenCalledWith(
-                'asd',
-                'spec2_main'
-                );
+               'asd',
+               'spec2_main'
+             );
 
-            var spy1 = jasmine.createSpy('spy1');
-
-            window.spec2_iframe = spy1;
-
-            var $iframe = $('<iframe src="spec/tabHub_spec2_iframe.html" id="tabHub_iframe"></iframe>');
+            var $iframe = $('<iframe src="spec/tabHub_spec2_iframe.html"></iframe>');
 
             $('body').append($iframe);
 
             var childWindow = $iframe[0].contentWindow;
+            var spy3 = jasmine.createSpy('spy3');
+
+            childWindow.noop1 = spy3;
 
             $iframe.on('load', function () {
-                //console.log($('#tabHub_iframe').contents()[0].title);
-                //console.log(childWindow.hub)
+
                 setTimeout(function () {
 
-                    expect(spy1).toHaveBeenCalledWith(
-                        'asd',
-                        'spec2_iframe'
+                    expect(spy3).toHaveBeenCalledWith(
+                         'asd',
+                         'spec2_iframe'
                     );
-                    //window.spec2_main = function (va) {
-                    //    console.log(va,'va')
-                    //}
-
-                    var spy3 = jasmine.createSpy('spy');
-                    window.spec2_main = spy3;
-
-                    childWindow.hub.emit('ddd');
 
                     setTimeout(function () {
 
-                        expect(spy1).toHaveBeenCalledWith(
-                            'ddd',
-                            'spec2_iframe'
-                        );
+                        childWindow.hub.emit('ddd');
 
-                        expect(spy3).toHaveBeenCalledWith(
-                            'ddd',
-                            'spec2_main'
-                        );
+                        setTimeout(function () {
 
-                        done();
+                            expect(spy).toHaveBeenCalledWith(
+                                'ddd',
+                                'spec2_main'
+                            );
 
-                    }, 40);
+                            expect(spy3).toHaveBeenCalledWith(
+                                'ddd',
+                                'spec2_iframe'
+                            );
 
-                }, 40);
+                            done();
+
+                        }, 5);
+                    });
+
+                }, 50);
+
             });
 
-        }, 10);
+        }, 20);
+
 
     });
 
-    xit('test above is rellay bad test, consider refactory it!!');
 });

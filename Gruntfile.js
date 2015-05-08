@@ -8,9 +8,43 @@ module.exports = function (grunt) {
     version: '8'
   }, {
     browserName: 'internet explorer',
-    platform: 'WIN8',
+    platform: 'WIN8.1',
     version: '11'
   }];
+
+  //browsers = [{
+  //    browserName: 'googlechrome',
+  //    platform: 'WIN7',
+  //    version: 'dev'
+  //}, {
+  //    browserName: 'googlechrome',
+  //    platform: 'WIN7',
+  //    version: 'beta'
+  //}, {
+  //    browserName: 'googlechrome',
+  //    platform: 'WIN7',
+  //    version: '42'
+  //}, {
+  //    browserName: 'googlechrome',
+  //    platform: 'WIN7',
+  //    version: '41'
+  //}, {
+  //    browserName: 'googlechrome',
+  //    platform: 'WIN8.1',
+  //    version: 'dev'
+  //}];
+
+  browsers = [];
+
+  // WIN7 CHROME
+  ['dev', 'beta', '42', '41', '40'].forEach(function (val) {
+      browsers.push({
+          browserName: 'googlechrome',
+          platform: 'WIN7',
+      });
+  });
+
+
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),

@@ -15,47 +15,42 @@
 var tabHub;
 
 tabHub = function(name, callback) {
-  var emit, handleData, onValueArr, out;
-  $(window).on('storage', function(e) {
-    var key, newValue, oldValue;
+  var emit, onValueArr, out;
+  $(window).on("storage." + name, function(e) {
+    var eventArr, eventData, eventType, i, key, len, newValue, oldValue, onValuecb, results;
     key = e.originalEvent.key;
     newValue = e.originalEvent.newValue;
     oldValue = e.originalEvent.oldValue;
-    if (key === name) {
-      return $(window).trigger("tabHub." + name, newValue);
+    if (key === name && (newValue != null)) {
+      eventArr = newValue.split(':');
+      eventType = eventArr[0];
+      eventData = eventArr[1];
+      switch (eventType) {
+        case 'readable':
+          if (out.lastValue != null) {
+            return localStorage.setItem(name, "data:" + out.lastValue);
+          }
+          break;
+        case 'data':
+          if (eventData != null) {
+            out.lastValue = eventData;
+            results = [];
+            for (i = 0, len = onValueArr.length; i < len; i++) {
+              onValuecb = onValueArr[i];
+              results.push(onValuecb.call(null, eventData));
+            }
+            return results;
+          }
+      }
     }
   });
-  $(window).on("tabHub." + name, function(e, newValue) {
-    var eventArr, eventData, eventType;
-    if (!newValue) {
-      return;
-    }
-    eventArr = newValue.split(':');
-    eventType = eventArr[0];
-    eventData = eventArr[1];
-    switch (eventType) {
-      case 'readable':
-        if (out.lastValue != null) {
-          return localStorage.setItem(name, "data:" + out.lastValue);
-        }
-        break;
-      case 'data':
-        return handleData(eventData);
-    }
-  });
-  handleData = function(eventData) {
-    if (eventData != null) {
-      out.lastValue = eventData;
-      emit(eventData);
-      return console.log("dataReceived: " + eventData + " " + document.title);
-    }
-  };
   onValueArr = [];
   localStorage.removeItem(name);
   localStorage.setItem(name, 'readable');
   emit = function(retValue) {
-    var i, len, onValuecb, results;
+    var i, len, lock, onValuecb, results;
     out.lastValue = retValue;
+    lock = true;
     localStorage.setItem(name, "data:" + retValue);
     results = [];
     for (i = 0, len = onValueArr.length; i < len; i++) {
@@ -66,7 +61,6 @@ tabHub = function(name, callback) {
   };
   setTimeout(function() {
     var i, len, onValuecb, results;
-    console.log(out.lastValue, 'result');
     if (out.lastValue) {
       results = [];
       for (i = 0, len = onValueArr.length; i < len; i++) {
@@ -80,7 +74,7 @@ tabHub = function(name, callback) {
   }, 20);
   return out = {
     destory: function() {
-      return $(window).off("tabHub." + name);
+      return $(window).off("storage." + name);
     },
     onValue: function(cb) {
       onValueArr.push(cb);

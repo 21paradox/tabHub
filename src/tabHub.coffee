@@ -15,42 +15,36 @@
 
 tabHub = (name, callback) ->
 
-	$(window).on('storage', (e) ->
-
+	$(window).on("storage.#{name}", (e) ->
+		
 		key = e.originalEvent.key
 		newValue = e.originalEvent.newValue
 		oldValue = e.originalEvent.oldValue
 
-		#console.log("storage #{newValue}", document.title)
-		if key is name
-			$(window).trigger("tabHub.#{name}", newValue)
+		#console.log(document.hidden, document.title)
+		if key is name and newValue? #and !document.hasFocus()
+
+			#console.log("storage",newValue, document.title)
+			eventArr =  newValue.split(':')
+			eventType = eventArr[0]
+			eventData = eventArr[1]
+			
+			switch eventType
+				when 'readable'
+					# if other tab have lastValue then set data Event
+					if out.lastValue? 
+						localStorage.setItem(name, "data:#{out.lastValue}")
+					 	#console.log('readable',out.lastValue)
+					 	
+				when 'data'
+					if eventData?
+						out.lastValue = eventData
+
+						for onValuecb in onValueArr
+							onValuecb.call(null, eventData)
+						#console.log("dataReceived: #{eventData} #{document.title}")
+				
 	)
-
-
-	$(window).on("tabHub.#{name}", (e, newValue) ->
-
-		if !newValue then return
-
-		eventArr =  newValue.split(':')
-		eventType = eventArr[0]
-		eventData = eventArr[1]
-
-		switch eventType
-			when 'readable'
-				# if other tab have lastValue then set data Event
-				if out.lastValue? then localStorage.setItem(name, "data:#{out.lastValue}")
-			when 'data'
-				handleData(eventData)
-
-	)
-
-	# handle done state
-	handleData = (eventData) ->
-
-		if eventData?
-			out.lastValue = eventData
-			emit(eventData)
-			console.log("dataReceived: #{eventData} #{document.title}")
 
 	# onValue callback Array
 	onValueArr = [];
@@ -62,14 +56,16 @@ tabHub = (name, callback) ->
 	
 	emit = (retValue) ->
 		out.lastValue = retValue
+		lock = true
 		localStorage.setItem(name, "data:#{retValue}")
+		
 		for onValuecb in onValueArr
 			onValuecb.call(null, retValue)
 	
 	# use timeout here to manually trigger async method
 	# because this will be run after other tabs update result
 	setTimeout(->
-		console.log(out.lastValue, 'result')
+		#console.log(out.lastValue, 'result',document.title)
 		if out.lastValue
 			for onValuecb in onValueArr
 				onValuecb.call(null, out.lastValue)
@@ -79,7 +75,7 @@ tabHub = (name, callback) ->
 
 	out = {
 
-		destory: -> $(window).off("tabHub.#{name}"),
+		destory: -> $(window).off("storage.#{name}"),
 
 		onValue: (cb) ->
 			onValueArr.push(cb)
@@ -91,21 +87,3 @@ tabHub = (name, callback) ->
 		lastValue: null,
 		emit: emit
 	}
-
-
-#aa = `init('aa', function (emit, fail) {
-#
-#    setTimeout(function() {
-#
-#        emit('123123123');
-#
-#    }, 1000);
-#});`
-
-
-##onValue will be called more than you think!
-#aa.onValue((data) ->
-#	console.log(data, document.title)
-#)
-
-
