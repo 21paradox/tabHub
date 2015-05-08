@@ -1,6 +1,0 @@
-20150508 152216.333 [10992] Sauce Connect 4.3.7, build 1660 249d939
-20150508 152216.338 [10992] Trying to autodetect proxy settings
-20150508 152216.346 [10992] Starting up; pid 10992
-20150508 152216.348 [10992] Command line arguments: d:\github\tabHub\node_modules\grunt-saucelabs\node_modules\sauce-tunnel\vendor\win32\bin\sc.exe -u 21paradox_test -k **** -i 200301736 -P 0
-20150508 152216.355 [10992] Using no proxy for connecting to Sauce Labs REST API.
-20150508 152216.591 [10992] Resolving saucelabs.com to 162.222.73.28 took 234 ms.

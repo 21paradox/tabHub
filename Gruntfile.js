@@ -43,7 +43,27 @@ module.exports = function (grunt) {
           platform: 'WIN7',
       });
   });
+  
+   ['11', '10', '9', '8'].forEach(function (val) {
+      browsers.push({
+          browserName: 'internet explorer',
+          platform: 'WIN7',
+      });
+  });
+  
+   ['7','6'].forEach(function (val) {
+      browsers.push({
+          browserName: 'internet explorer',
+          platform: 'XP',
+      });
+  });
 
+  ['dev','beta','37'].forEach(function (val) {
+      browsers.push({
+          browserName: 'firefox',
+          platform: 'WIN7',
+      });
+  });
 
 
   grunt.initConfig({

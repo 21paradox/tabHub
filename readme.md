@@ -1,4 +1,7 @@
-# tabHub
+# tabHub [![Build Status](https://travis-ci.org/21paradox/tabHub.svg?branch=master)](https://travis-ci.org/21paradox/tabHub) 
+
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/21paradox_test.svg)](https://saucelabs.com/u/21paradox_test)
+
 
 Easy browser tab events fireing and receiving.
 
