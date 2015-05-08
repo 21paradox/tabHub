@@ -19,6 +19,11 @@
       "ipad/6",
       "android-browser/latest"
     ],
-     "html" : "SpecRunner.html"
+    "html": "SpecRunner.html"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-connect": "^0.10.1",
+    "grunt-saucelabs": "^8.6.1"
   }
 }
