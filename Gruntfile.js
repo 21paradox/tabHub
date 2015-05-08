@@ -41,6 +41,7 @@ module.exports = function (grunt) {
       browsers.push({
           browserName: 'googlechrome',
           platform: 'WIN7',
+          version: val
       });
   });
   
@@ -48,6 +49,7 @@ module.exports = function (grunt) {
       browsers.push({
           browserName: 'internet explorer',
           platform: 'WIN7',
+          version: val
       });
   });
   
@@ -55,6 +57,7 @@ module.exports = function (grunt) {
       browsers.push({
           browserName: 'internet explorer',
           platform: 'XP',
+          version: val
       });
   });
 
