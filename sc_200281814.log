@@ -1,0 +1,204 @@
+20150508 095014.798 [05628] Sauce Connect 4.3.7, build 1660 249d939
+20150508 095014.802 [05628] Trying to autodetect proxy settings
+20150508 095014.807 [05628] Starting up; pid 5628
+20150508 095014.808 [05628] Command line arguments: D:\github\tabHub\node_modules\grunt-saucelabs\node_modules\sauce-tunnel\vendor\win32\bin\sc.exe -u 21paradox_test -k **** -i 200281814 -P 0
+20150508 095014.810 [05628] Using no proxy for connecting to Sauce Labs REST API.
+20150508 095014.993 [05628] Resolving saucelabs.com to 162.222.73.28 took 181 ms.
+20150508 095016.084 [05628] ***********************************************************
+20150508 095016.085 [05628] A newer version of Sauce Connect (build 1673) is available!
+20150508 095016.086 [05628] Download it here:
+20150508 095016.086 [05628] https://saucelabs.com/downloads/sc-4.3.8-win32.zip
+20150508 095016.087 [05628] ***********************************************************
+20150508 095016.088 [05628] PROXY *** scproxy started ***
+20150508 095016.092 [05628] PROXY found DNS server 8.8.8.8
+20150508 095016.092 [05628] PROXY found DNS server 8.8.4.4
+20150508 095016.093 [05628] PROXY found DNS server 202.106.0.20
+20150508 095016.094 [05628] PROXY found DNS server 219.141.140.10
+20150508 095016.094 [05628] PROXY found DNS server 202.106.0.20
+20150508 095016.094 [05628] PROXY found DNS server 219.141.140.10
+20150508 095016.095 [05628] PROXY found DNS server 8.8.8.8
+20150508 095016.095 [05628] PROXY found DNS server 8.8.4.4
+20150508 095016.288 [05628] Started scproxy on port 50532.
+20150508 095016.288 [05628] Please wait for 'you may start your tests' to start your tests.
+20150508 095016.289 [05628] Starting secure remote tunnel VM...
+20150508 095022.468 [05628] Secure remote tunnel VM provisioned.
+20150508 095022.469 [05628] Tunnel ID: 8feb0bccb4c04e3bac68b2c1163ad22a
+20150508 095023.341 [05628] Secure remote tunnel VM is now: booting
+20150508 095035.513 [05628] Secure remote tunnel VM is now: running
+20150508 095035.515 [05628] Remote tunnel host is: maki79086.miso.saucelabs.com
+20150508 095035.516 [05628] Using no proxy for connecting to tunnel VM.
+20150508 095035.998 [05628] Resolving maki79086.miso.saucelabs.com to 162.222.79.86 took 481 ms.
+20150508 095036.003 [05628] Starting Selenium listener...
+20150508 095036.004 [05628] Establishing secure TLS connection to tunnel...
+20150508 095036.042 [05628] [EVDNS] Added nameserver 8.8.8.8:53 as 026FE9E0
+20150508 095036.042 [05628] [EVDNS] Added nameserver 8.8.4.4:53 as 026FEBF8
+20150508 095036.043 [05628] [EVDNS] Added nameserver 202.106.0.20:53 as 026FED30
+20150508 095036.043 [05628] [EVDNS] Added nameserver 219.141.140.10:53 as 026FEE68
+20150508 095036.044 [05628] Selenium listener started on port 50590.
+20150508 095036.234 [05628] MAIN connecting to KGP server 162.222.79.86 took 189 ms
+20150508 095036.247 [05628] MAIN warning, failed to set KGP bufferevent priority to 0
+20150508 095038.123 [05628] Sauce Connect is up, you may start your tests.
+20150508 095038.123 [05628] Connection established.
+20150508 095045.559 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095045.559 [05628] PROXY 127.0.0.1:50627 -> GET http://127.0.0.1:9999/spec_1page.html (429 bytes)
+20150508 095045.567 [05628] PROXY 127.0.0.1:50627 <- 200 127.0.0.1:9999 (1416 bytes)
+20150508 095046.442 [05628] PROXY 127.0.0.1:50627 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine.css (435 bytes)
+20150508 095046.451 [05628] PROXY 127.0.0.1:50627 <- 200 127.0.0.1:9999 (20291 bytes)
+20150508 095046.458 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095046.459 [05628] PROXY 127.0.0.1:50631 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine.js (419 bytes)
+20150508 095046.462 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095046.463 [05628] PROXY 127.0.0.1:50633 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/boot.js (416 bytes)
+20150508 095046.467 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095046.467 [05628] PROXY 127.0.0.1:50632 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine-html.js (424 bytes)
+20150508 095046.476 [05628] PROXY 127.0.0.1:50633 <- 200 127.0.0.1:9999 (5343 bytes)
+20150508 095046.476 [05628] PROXY 127.0.0.1:50632 <- 200 127.0.0.1:9999 (14994 bytes)
+20150508 095046.478 [05628] PROXY 127.0.0.1:50631 <- 200 127.0.0.1:9999 (87650 bytes)
+20150508 095046.612 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095046.612 [05628] PROXY 127.0.0.1:50634 -> GET http://127.0.0.1:9999/lib/jasmine-jsreporter.js (416 bytes)
+20150508 095046.616 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095046.617 [05628] PROXY 127.0.0.1:50635 -> GET http://127.0.0.1:9999/lib/tap_reporter.js (410 bytes)
+20150508 095046.622 [05628] PROXY 127.0.0.1:50635 <- 200 127.0.0.1:9999 (6191 bytes)
+20150508 095046.623 [05628] PROXY 127.0.0.1:50634 <- 200 127.0.0.1:9999 (12935 bytes)
+20150508 095047.025 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095047.025 [05628] PROXY 127.0.0.1:50643 -> GET http://127.0.0.1:9999/spec_1page.html (500 bytes)
+20150508 095047.028 [05628] PROXY 127.0.0.1:50643 <- 304 127.0.0.1:9999 (218 bytes)
+20150508 095048.104 [05628] PROXY 127.0.0.1:50627 -> GET http://127.0.0.1:9999/lib/jquery.js (404 bytes)
+20150508 095048.107 [05628] PROXY 127.0.0.1:50627 <- 200 127.0.0.1:9999 (95113 bytes)
+20150508 095050.637 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095050.723 [05628] Disconnected - you are now offline.
+20150508 095051.625 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095052.624 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095053.634 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095054.629 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095056.005 [05628] MAIN connecting to KGP server 162.222.79.86 took 2806 ms
+20150508 095056.012 [05628] MAIN warning, failed to set KGP bufferevent priority to 0
+20150508 095057.800 [05628] PROXY 127.0.0.1:50634 -> GET http://127.0.0.1:9999/lib/jasmine-jsreporter.js (416 bytes)
+20150508 095057.801 [05628] PROXY 127.0.0.1:50635 -> GET http://127.0.0.1:9999/lib/tap_reporter.js (410 bytes)
+20150508 095057.802 [05628] PROXY 127.0.0.1:50643 -> GET http://127.0.0.1:9999/spec_1page.html (500 bytes)
+20150508 095057.803 [05628] PROXY 127.0.0.1:50632 -> GET http://127.0.0.1:9999/spec/tabHub_spec_1page.js (416 bytes)
+20150508 095057.804 [05628] PROXY 127.0.0.1:50633 -> GET http://127.0.0.1:9999/src/tabHub.js (404 bytes)
+20150508 095057.804 [05628] PROXY 127.0.0.1:50627 -> GET http://127.0.0.1:9999/lib/jquery.js (404 bytes)
+20150508 095057.805 [05628] PROXY 127.0.0.1:50635 <- 200 127.0.0.1:9999 (6191 bytes)
+20150508 095057.806 [05628] PROXY 127.0.0.1:50634 <- 200 127.0.0.1:9999 (12935 bytes)
+20150508 095057.807 [05628] PROXY 127.0.0.1:50643 <- 304 127.0.0.1:9999 (218 bytes)
+20150508 095057.813 [05628] PROXY 127.0.0.1:50633 <- 200 127.0.0.1:9999 (2919 bytes)
+20150508 095057.815 [05628] PROXY 127.0.0.1:50632 <- 200 127.0.0.1:9999 (4011 bytes)
+20150508 095057.817 [05628] PROXY 127.0.0.1:50627 <- 200 127.0.0.1:9999 (95113 bytes)
+20150508 095057.879 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095058.876 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095059.877 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095100.886 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095101.882 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095102.878 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095103.875 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095104.879 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095105.432 [05628] PROXY 127.0.0.1:50634 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine.css (451 bytes)
+20150508 095105.434 [05628] PROXY 127.0.0.1:50635 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine-html.js (455 bytes)
+20150508 095105.437 [05628] PROXY 127.0.0.1:50631 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/boot.js (447 bytes)
+20150508 095105.441 [05628] PROXY 127.0.0.1:50634 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095105.442 [05628] PROXY 127.0.0.1:50635 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095105.443 [05628] PROXY 127.0.0.1:50631 <- 304 127.0.0.1:9999 (218 bytes)
+20150508 095105.456 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095105.457 [05628] PROXY 127.0.0.1:50700 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine.js (450 bytes)
+20150508 095105.463 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095105.464 [05628] PROXY 127.0.0.1:50702 -> GET http://127.0.0.1:9999/lib/tap_reporter.js (441 bytes)
+20150508 095105.468 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095105.468 [05628] PROXY 127.0.0.1:50701 -> GET http://127.0.0.1:9999/lib/jasmine-jsreporter.js (447 bytes)
+20150508 095105.471 [05628] PROXY 127.0.0.1:50700 <- 304 127.0.0.1:9999 (220 bytes)
+20150508 095105.471 [05628] PROXY 127.0.0.1:50702 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095105.472 [05628] PROXY 127.0.0.1:50701 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095105.646 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095105.647 [05628] PROXY 127.0.0.1:50703 -> GET http://127.0.0.1:9999/lib/jquery.js (435 bytes)
+20150508 095105.650 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095105.651 [05628] PROXY 127.0.0.1:50704 -> GET http://127.0.0.1:9999/src/tabHub.js (385 bytes)
+20150508 095105.654 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095105.655 [05628] PROXY 127.0.0.1:50705 -> GET http://127.0.0.1:9999/spec/tabHub_spec_1page.js (397 bytes)
+20150508 095105.658 [05628] PROXY 127.0.0.1:50703 <- 304 127.0.0.1:9999 (220 bytes)
+20150508 095105.660 [05628] PROXY 127.0.0.1:50704 <- 200 127.0.0.1:9999 (2919 bytes)
+20150508 095105.662 [05628] PROXY 127.0.0.1:50705 <- 200 127.0.0.1:9999 (4011 bytes)
+20150508 095105.875 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095106.887 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095107.876 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095108.882 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095109.877 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095110.877 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095111.883 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095112.878 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095113.875 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095114.877 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095115.876 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095116.876 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095117.877 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095118.885 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095120.991 [05628] MAIN connecting to KGP server 162.222.79.86 took 182 ms
+20150508 095120.998 [05628] MAIN warning, failed to set KGP bufferevent priority to 0
+20150508 095122.010 [05628] CHANNEL 7 tried to free nonexistent connection
+20150508 095122.011 [05628] PROXY 127.0.0.1:50634 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine.css (451 bytes)
+20150508 095122.012 [05628] PROXY 127.0.0.1:50635 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine-html.js (455 bytes)
+20150508 095122.013 [05628] PROXY 127.0.0.1:50631 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/boot.js (447 bytes)
+20150508 095122.016 [05628] PROXY 127.0.0.1:50705 -> GET http://127.0.0.1:9999/spec/tabHub_spec_1page.js (397 bytes)
+20150508 095122.017 [05628] PROXY 127.0.0.1:50700 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine.js (450 bytes)
+20150508 095122.018 [05628] PROXY 127.0.0.1:50701 -> GET http://127.0.0.1:9999/lib/jasmine-jsreporter.js (447 bytes)
+20150508 095122.019 [05628] PROXY 127.0.0.1:50702 -> GET http://127.0.0.1:9999/lib/tap_reporter.js (441 bytes)
+20150508 095122.020 [05628] PROXY 127.0.0.1:50703 -> GET http://127.0.0.1:9999/lib/jquery.js (435 bytes)
+20150508 095122.020 [05628] PROXY 127.0.0.1:50704 -> GET http://127.0.0.1:9999/src/tabHub.js (385 bytes)
+20150508 095122.023 [05628] PROXY 127.0.0.1:50634 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095122.024 [05628] PROXY 127.0.0.1:50631 <- 304 127.0.0.1:9999 (218 bytes)
+20150508 095122.025 [05628] PROXY 127.0.0.1:50635 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095122.026 [05628] PROXY 127.0.0.1:50701 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095122.026 [05628] PROXY 127.0.0.1:50700 <- 304 127.0.0.1:9999 (220 bytes)
+20150508 095122.026 [05628] PROXY 127.0.0.1:50702 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095122.027 [05628] PROXY 127.0.0.1:50703 <- 304 127.0.0.1:9999 (220 bytes)
+20150508 095122.067 [05628] PROXY 127.0.0.1:50704 <- 200 127.0.0.1:9999 (2919 bytes)
+20150508 095122.069 [05628] PROXY 127.0.0.1:50705 <- 200 127.0.0.1:9999 (4011 bytes)
+20150508 095122.383 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095123.381 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095124.376 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095125.387 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095126.383 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095127.379 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095128.375 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095129.390 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095130.394 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095131.390 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095132.400 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095133.398 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095134.394 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095135.404 [05628] KGP warning: no keepalive ack for > 5s
+20150508 095135.443 [05628] PROXY 127.0.0.1:50704 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine_favicon.png (380 bytes)
+20150508 095135.448 [05628] PROXY 127.0.0.1:50704 <- 200 127.0.0.1:9999 (1741 bytes)
+20150508 095136.190 [05628] PROXY 127.0.0.1:50632 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine_favicon.png (387 bytes)
+20150508 095136.193 [05628] PROXY 127.0.0.1:50632 <- 304 127.0.0.1:9999 (218 bytes)
+20150508 095137.104 [05628] Connection established.
+20150508 095151.410 [05628] PROXY 127.0.0.1:50633 -> GET http://127.0.0.1:9999/spec_2page.html (429 bytes)
+20150508 095151.412 [05628] PROXY 127.0.0.1:50633 <- 200 127.0.0.1:9999 (1446 bytes)
+20150508 095152.333 [05628] PROXY 127.0.0.1:50633 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine.css (485 bytes)
+20150508 095152.338 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095152.339 [05628] PROXY 127.0.0.1:50874 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine.js (469 bytes)
+20150508 095152.339 [05628] PROXY 127.0.0.1:50633 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095152.342 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095152.344 [05628] PROXY 127.0.0.1:50875 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine-html.js (474 bytes)
+20150508 095152.348 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095152.349 [05628] PROXY 127.0.0.1:50876 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/boot.js (466 bytes)
+20150508 095152.350 [05628] PROXY 127.0.0.1:50874 <- 304 127.0.0.1:9999 (220 bytes)
+20150508 095152.350 [05628] PROXY 127.0.0.1:50875 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095152.353 [05628] PROXY 127.0.0.1:50876 <- 304 127.0.0.1:9999 (218 bytes)
+20150508 095152.398 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095152.399 [05628] PROXY 127.0.0.1:50877 -> GET http://127.0.0.1:9999/lib/jasmine-jsreporter.js (466 bytes)
+20150508 095152.403 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095152.414 [05628] PROXY 127.0.0.1:50880 -> GET http://127.0.0.1:9999/lib/tap_reporter.js (460 bytes)
+20150508 095152.415 [05628] PROXY 127.0.0.1:50877 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095152.416 [05628] PROXY 127.0.0.1:50880 <- 304 127.0.0.1:9999 (219 bytes)
+20150508 095152.577 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095152.578 [05628] PROXY 127.0.0.1:50884 -> GET http://127.0.0.1:9999/lib/jquery.js (454 bytes)
+20150508 095152.580 [05628] PROXY 127.0.0.1:50884 <- 304 127.0.0.1:9999 (220 bytes)
+20150508 095152.771 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095152.771 [05628] PROXY 127.0.0.1:50889 -> GET http://127.0.0.1:9999/spec/tabHub_spec_2page.js (416 bytes)
+20150508 095152.789 [05628] PROXY 127.0.0.1:50889 <- 200 127.0.0.1:9999 (2570 bytes)
+20150508 095154.939 [05628] PROXY 127.0.0.1:50889 -> GET http://127.0.0.1:9999/spec/tabHub_spec2_share.js (417 bytes)
+20150508 095154.941 [05628] PROXY 127.0.0.1:50889 <- 200 127.0.0.1:9999 (940 bytes)
+20150508 095155.119 [05628] PROXY resolved '127.0.0.1' to '127.0.0.1:9999'
+20150508 095155.120 [05628] PROXY 127.0.0.1:50900 -> GET http://127.0.0.1:9999/src/tabHub.js (454 bytes)
+20150508 095155.121 [05628] PROXY 127.0.0.1:50900 <- 304 127.0.0.1:9999 (218 bytes)
+20150508 095229.180 [05628] PROXY 127.0.0.1:50889 -> GET http://127.0.0.1:9999/lib/jasmine-2.3.0/jasmine_favicon.png (430 bytes)
+20150508 095229.182 [05628] PROXY 127.0.0.1:50889 <- 304 127.0.0.1:9999 (218 bytes)

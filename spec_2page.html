@@ -8,17 +8,22 @@
 
     <script src="lib/jasmine-2.3.0/jasmine.js"></script>
     <script src="lib/jasmine-2.3.0/jasmine-html.js"></script>
-    <script src="lib/tap_reporter.js"></script>
     <script src="lib/jasmine-2.3.0/boot.js"></script>
-    <style>
-        iframe{
-            display: none;
-        }
-    </style>
+        
+    <script src="lib/jasmine-jsreporter.js"></script>
+    <script src="lib/tap_reporter.js"></script>
+
     <script>
         // add Tap reporter for testling
         //jasmine.getEnv().addReporter(new jasmineReporters.TapReporter());
+        jasmine.getEnv().addReporter(new jasmine.JSReporter2());
     </script>
+
+    <style>
+/*        iframe{
+            display: none;
+        }*/
+    </style>
 
     <script src="lib/jquery.js"></script>
     <!-- include source files here... -->
