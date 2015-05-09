@@ -33,25 +33,6 @@ tabHub = (name, callback) ->
 	# then init readable stream
 	localStorage.setItem(name, 'readable')
 	
-	### 
-		registrer storage first
-		when data received set data
-		hack for IE
-	###
-#	$(window).on("storage.#{name}.first", (e) ->
-#		
-#		key = e.originalEvent.key
-#		newValue = e.originalEvent.newValue
-#		newValue?= localStorage.getItem(name) 
-#		eventArr = newValue.split(':')
-#		
-#		if key is name
-#			if eventArr[0] is 'data'
-#				console.log("set lastValue #{eventArr[1]}", document.title)
-#				out.lastValue = eventArr[1]
-#				$(window).off("storage.#{name}.first")
-#	)
-
 	noop = $.noop;
 	
 	window.addEventListener('storage', noop, false)
@@ -62,26 +43,18 @@ tabHub = (name, callback) ->
 	$(document).ready(->
 		
 		setTimeout(->
-			#console.log(out.lastValue, 'result', document.title)
-			#console.log(out.lastValue, 'lastValue')
-			
-			#console.log localStorage.getItem(name)
+
 			regeisterEvents()
 			
 			if emitTimes > 0 then return
 			
-			#console.log(name)
 			if eventArr = localStorage.getItem(name)?.split(':')
-				#console.log(eventArr, document.title)
 				
 				if eventArr[0] is 'data'
 					#console.log(eventArr[1])
 					for onValuecb in onValueArr
 						onValuecb.call(null, eventArr[1])
 						return
-				#else
-					#console.log('run cb', document.title)
-			#console.log('runcb')		
 			callback(emit)
 
 	
@@ -106,16 +79,11 @@ tabHub = (name, callback) ->
 			# if newValue not exist assgin getItem
 			newValue?= localStorage.getItem(name) 
 			
-			#console.log(document.hidden, document.title)
 			if key is name #and newValue? #and !document.hasFocus()
-	
-				#console.log("storage",newValue, document.title)
-				
-				#console.log(newValue,'newValue')
+
 				eventArr =  newValue.split(':')
 				eventType = eventArr[0]
 				eventData = eventArr[1]
-				#console.log(eventArr, document.title, name)
 				
 				switch eventType
 					when 'readable'
@@ -123,7 +91,6 @@ tabHub = (name, callback) ->
 						if out.lastValue? 
 							#console.log('readable',out.lastValue)
 							localStorage.setItem(name, "data:#{out.lastValue}")
-						 	#
 						 	
 					when 'data'
 						if eventData?
@@ -131,7 +98,6 @@ tabHub = (name, callback) ->
 	
 							for onValuecb in onValueArr
 								onValuecb.call(null, eventData)
-							#console.log("dataReceived: #{eventData} #{document.title}")
 		)
 		
 		$(window).on('unload', -> $(window).off("storage"))

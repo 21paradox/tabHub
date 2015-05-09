@@ -92,6 +92,7 @@ module.exports = function (grunt) {
       browsers.push({
           browserName: 'firefox',
           platform: 'WIN7',
+          version: val
       });
   });
 

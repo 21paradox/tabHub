@@ -55,6 +55,9 @@
                     );
                     
                     expect(spy4).not.toHaveBeenCalled();
+                    
+                    expect(hubCount).toBe(0);
+                
 
                    // setTimeout(function () {
 
@@ -67,17 +70,19 @@
                                 'spec2_main'
                             );
 
-                            expect(spy3).toHaveBeenCalledWith(
-                                'ddd',
-                                'spec2_iframe'
-                            );
+//                            expect(spy3).toHaveBeenCalledWith(
+//                                'ddd',
+//                                'spec2_iframe'
+//                            );
+
+
 
                             done();
 
                         }, 5);
                     //});
 
-                }, 110);
+                }, 150);
 
             });
 

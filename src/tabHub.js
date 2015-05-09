@@ -29,12 +29,6 @@ tabHub = function(name, callback) {
   };
   onValueArr = [];
   localStorage.setItem(name, 'readable');
-
-  /* 
-  		registrer storage first
-  		when data received set data
-  		hack for IE
-   */
   noop = $.noop;
   window.addEventListener('storage', noop, false);
   $(document).ready(function() {
