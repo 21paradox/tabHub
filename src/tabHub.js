@@ -30,7 +30,9 @@ tabHub = function(name, callback) {
   onValueArr = [];
   localStorage.setItem(name, 'readable');
   noop = $.noop;
-  window.addEventListener('storage', noop, false);
+  if (typeof window.addEventListener === "function") {
+    window.addEventListener('storage', noop, false);
+  }
   $(document).ready(function() {
     return setTimeout(function() {
       var eventArr, i, len, onValuecb, ref;

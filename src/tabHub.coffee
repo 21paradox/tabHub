@@ -35,7 +35,7 @@ tabHub = (name, callback) ->
 	
 	noop = $.noop;
 	
-	window.addEventListener('storage', noop, false)
+	window.addEventListener?('storage', noop, false)
 	
 	# use timeout here to manually trigger async method
 	# because this will be run after other tabs update result
@@ -56,7 +56,6 @@ tabHub = (name, callback) ->
 						onValuecb.call(null, eventArr[1])
 						return
 			callback(emit)
-
 	
 #			if out.lastValue?
 #				for onValuecb in onValueArr

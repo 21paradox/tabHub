@@ -36,14 +36,28 @@ module.exports = function (grunt) {
 
   browsers = [];
 
-  // WIN7 CHROME
-  ['dev', 'beta', '42', '41', '40'].forEach(function (val) {
+  //  CHROME
       browsers.push({
           browserName: 'googlechrome',
           platform: 'WIN7',
-          version: val
+          version: '41'
       });
-  });
+      browsers.push({
+          browserName: 'googlechrome',
+          platform: 'WIN8.1',
+          version: '41'
+      });
+      browsers.push({
+          browserName: 'googlechrome',
+          platform: 'WIN8',
+          version: '41'
+      });
+       browsers.push({
+          browserName: 'googlechrome',
+          platform: 'XP',
+          version: '41'
+      });
+
   
   ['11', '10', '9', '8'].forEach(function (val) {
       browsers.push({
@@ -71,14 +85,6 @@ module.exports = function (grunt) {
         version: '8.0'
     });
     
-     browsers.push({
-        browserName: 'safari',
-        deviceName: 'iPad Simulator',
-        platform : 'OS X 10.10',
-        'device-orientation': 'portrait',
-        version: '8.2'
-    });
-    
   
 //   ['7','6'].forEach(function (val) {
 //      browsers.push({
@@ -88,12 +94,22 @@ module.exports = function (grunt) {
 //      });
 //  });
 
-  ['dev','beta','37'].forEach(function (val) {
-      browsers.push({
+  browsers.push({
           browserName: 'firefox',
           platform: 'WIN7',
-          version: val
-      });
+          version: 37
+  });
+  
+    browsers.push({
+          browserName: 'firefox',
+          platform: 'WIN8',
+          version: 37
+  });
+  
+    browsers.push({
+          browserName: 'firefox',
+          platform: 'WIN8.1',
+          version: 37
   });
 
 

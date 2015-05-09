@@ -56,7 +56,7 @@
                     
                     expect(spy4).not.toHaveBeenCalled();
                     
-                    expect(hubCount).toBe(0);
+                    expect(childWindow.hubCount).toBe(0);
                 
 
                    // setTimeout(function () {
