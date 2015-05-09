@@ -34,17 +34,28 @@
 
 
 //javascript snippet shared across pages
-var noop1;
 
-var hub = tabHub('myVal_spec2', function (e) {
 
-});
+var fakeobj, hub;
 
-hub.noop = noop1 || function () {
+$(function () {
 
-};
+    fakeobj = fakeobj || {
+        onceCb: function () { },
+        noop: function () { }
+    };
 
-hub.onValue(function (val) {
 
-    hub.noop(val, document.title);
+    hub = tabHub('myVal_spec2', function (e) {
+        console.log('111')
+        fakeobj.onceCb();
+        
+    });
+
+
+    hub.onValue(function (val) {
+       
+        fakeobj.noop(val, document.title);
+    });
+
 });

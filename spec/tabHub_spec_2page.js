@@ -16,13 +16,17 @@
     it('firstEnter main page, then iframe(iframe should not call), iframe emit mainpage getData', function (done) {
 
         var spy = jasmine.createSpy('spy');
+        var spy1 = jasmine.createSpy('onceCb');
 
-        hub.noop = spy;
+        fakeobj.noop = spy;
+        fakeobj.onceCb = spy1;
 
         setTimeout(function () {
 
+            expect(spy1).toHaveBeenCalled();
+            
             hub.emit('asd');
-
+           
             expect(spy).toHaveBeenCalledWith(
                'asd',
                'spec2_main'
@@ -33,9 +37,13 @@
             $('body').append($iframe);
 
             var childWindow = $iframe[0].contentWindow;
+           
+            childWindow.fakeobj = {};
             var spy3 = jasmine.createSpy('spy3');
-
-            childWindow.noop1 = spy3;
+            var spy4 = jasmine.createSpy('onceCb1');
+            
+            childWindow.fakeobj.noop = spy3;
+            childWindow.fakeobj.onceCb = spy4;
 
             $iframe.on('load', function () {
 
@@ -45,8 +53,10 @@
                          'asd',
                          'spec2_iframe'
                     );
+                    
+                    expect(spy4).not.toHaveBeenCalled();
 
-                    setTimeout(function () {
+                   // setTimeout(function () {
 
                         childWindow.hub.emit('ddd');
 
@@ -65,13 +75,13 @@
                             done();
 
                         }, 5);
-                    });
+                    //});
 
-                }, 50);
+                }, 110);
 
             });
 
-        }, 20);
+        }, 110);
 
 
     });

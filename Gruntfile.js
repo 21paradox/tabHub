@@ -53,6 +53,22 @@ module.exports = function (grunt) {
       });
   });
   
+  ['11'].forEach(function (val) {
+      browsers.push({
+          browserName: 'internet explorer',
+          platform: 'WIN8.1',
+          version: val
+      });
+  });
+  
+  ['10'].forEach(function (val) {
+      browsers.push({
+          browserName: 'internet explorer',
+          platform: 'WIN8',
+          version: val
+      });
+  });
+  
    ['7','6'].forEach(function (val) {
       browsers.push({
           browserName: 'internet explorer',

@@ -17,8 +17,11 @@
         var spy = jasmine.createSpy('spy');
         var spy1 = jasmine.createSpy('spy1');
 
-        hub.noop = spy;
-        hub1.noop = spy1;
+        //hub.noop = spy;
+        //hub1.noop = spy1;
+        
+        fakeobj.noop = spy;
+        fakeobj1.noop = spy1;
 
         hub.emit('asd');
         hub1.emit('bsd');
@@ -43,8 +46,13 @@
         var spy3 = jasmine.createSpy('spy3');
         var spy4 = jasmine.createSpy('spy4');
 
-        childWindow.noop1 = spy3;
-        childWindow.noop2 = spy4;
+        childWindow.fakeobj = {};
+        childWindow.fakeobj1 = {};
+
+        childWindow.fakeobj.noop = spy3;
+        childWindow.fakeobj1.noop = spy4;
+        
+       
 
         $iframe.on('load', function () {
 
@@ -59,12 +67,14 @@
                      'bsd',
                      'spec2_iframe'
                 );
+                
+                //done();
 
                 var spy6 = jasmine.createSpy('spy6');
                 var spy7 = jasmine.createSpy('spy7');
 
-                childWindow.hub.noop = spy6;
-                childWindow.hub1.noop = spy7;
+                childWindow.fakeobj.noop = spy6;
+                childWindow.fakeobj1.noop = spy7;
 
                 childWindow.hub.emit('csd');
                 childWindow.hub1.emit('dsd');
@@ -85,7 +95,7 @@
 
                 }, 30);
 
-            }, 20);
+            }, 110);
 
         });
 

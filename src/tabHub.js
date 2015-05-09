@@ -15,63 +15,82 @@
 var tabHub;
 
 tabHub = function(name, callback) {
-  var emit, onValueArr, out;
-  $(window).on("storage." + name, function(e) {
-    var eventArr, eventData, eventType, i, key, len, newValue, oldValue, onValuecb, results;
-    key = e.originalEvent.key;
-    newValue = e.originalEvent.newValue;
-    oldValue = e.originalEvent.oldValue;
-    if (key === name && (newValue != null)) {
-      eventArr = newValue.split(':');
-      eventType = eventArr[0];
-      eventData = eventArr[1];
-      switch (eventType) {
-        case 'readable':
-          if (out.lastValue != null) {
-            return localStorage.setItem(name, "data:" + out.lastValue);
-          }
-          break;
-        case 'data':
-          if (eventData != null) {
-            out.lastValue = eventData;
-            results = [];
-            for (i = 0, len = onValueArr.length; i < len; i++) {
-              onValuecb = onValueArr[i];
-              results.push(onValuecb.call(null, eventData));
-            }
-            return results;
-          }
-      }
-    }
-  });
-  onValueArr = [];
-  localStorage.removeItem(name);
-  localStorage.setItem(name, 'readable');
+  var emit, emitTimes, noop, onValueArr, out, regeisterEvents;
+  emitTimes = 0;
   emit = function(retValue) {
-    var i, len, lock, onValuecb, results;
+    var i, len, onValuecb;
     out.lastValue = retValue;
-    lock = true;
     localStorage.setItem(name, "data:" + retValue);
-    results = [];
     for (i = 0, len = onValueArr.length; i < len; i++) {
       onValuecb = onValueArr[i];
-      results.push(onValuecb.call(null, retValue));
+      onValuecb.call(null, retValue);
     }
-    return results;
+    return emitTimes += 1;
   };
-  setTimeout(function() {
-    var i, len, onValuecb, results;
-    if (out.lastValue) {
-      results = [];
-      for (i = 0, len = onValueArr.length; i < len; i++) {
-        onValuecb = onValueArr[i];
-        results.push(onValuecb.call(null, out.lastValue));
+  onValueArr = [];
+  localStorage.setItem(name, 'readable');
+
+  /* 
+  		registrer storage first
+  		when data received set data
+  		hack for IE
+   */
+  noop = $.noop;
+  window.addEventListener('storage', noop, false);
+  $(document).ready(function() {
+    return setTimeout(function() {
+      var eventArr, i, len, onValuecb, ref;
+      regeisterEvents();
+      if (emitTimes > 0) {
+        return;
       }
-      return results;
-    } else {
+      if (eventArr = (ref = localStorage.getItem(name)) != null ? ref.split(':') : void 0) {
+        if (eventArr[0] === 'data') {
+          for (i = 0, len = onValueArr.length; i < len; i++) {
+            onValuecb = onValueArr[i];
+            onValuecb.call(null, eventArr[1]);
+            return;
+          }
+        }
+      }
       return callback(emit);
-    }
-  }, 20);
+    }, 100);
+  });
+  regeisterEvents = function() {
+    $(window).on("storage." + name, function(e) {
+      var eventArr, eventData, eventType, i, key, len, newValue, onValuecb, results;
+      key = e.originalEvent.key;
+      newValue = e.originalEvent.newValue;
+      if (newValue == null) {
+        newValue = localStorage.getItem(name);
+      }
+      if (key === name) {
+        eventArr = newValue.split(':');
+        eventType = eventArr[0];
+        eventData = eventArr[1];
+        switch (eventType) {
+          case 'readable':
+            if (out.lastValue != null) {
+              return localStorage.setItem(name, "data:" + out.lastValue);
+            }
+            break;
+          case 'data':
+            if (eventData != null) {
+              out.lastValue = eventData;
+              results = [];
+              for (i = 0, len = onValueArr.length; i < len; i++) {
+                onValuecb = onValueArr[i];
+                results.push(onValuecb.call(null, eventData));
+              }
+              return results;
+            }
+        }
+      }
+    });
+    return $(window).on('unload', function() {
+      return $(window).off("storage");
+    });
+  };
   return out = {
     destory: function() {
       return $(window).off("storage." + name);

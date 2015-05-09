@@ -1,28 +1,38 @@
-﻿//javascript snippet shared across pages
-var noop1, noop2;
+﻿
+var fakeobj, hub, hub1, fakeobj1;
 
-var hub = tabHub('myVal_spec2_01', function (e) {
+$(function () {
 
-});
+    fakeobj = fakeobj || {
+        onceCb: function () { },
+        noop: function () { }
+    };
+    
+    fakeobj1 = fakeobj1 || {
+        onceCb: function () { },
+        noop: function () { }
+    };
 
-hub.noop = noop1 || function () {
 
-};
-
-hub.onValue(function (val) {
-
-    hub.noop(val, document.title);
-});
+    hub = tabHub('myVal_spec2_01', function (e) {
+        //fakeobj.onceCb();
+    });
 
 
-var hub1 = tabHub('myVal_spec2_02', function (e) {
+    hub.onValue(function (val) {
+        fakeobj.noop(val, document.title);
+        //console.log(val, document.title,'hub');
+    });
+    
+    
+    hub1 = tabHub('myVal_spec2_02', function (e) {
+        //fakeobj1.onceCb();
+    });
 
-});
 
-hub1.noop = noop2 || function () {
-
-};
-
-hub1.onValue(function (val) {
-    hub1.noop(val, document.title);
+    hub1.onValue(function (val) {
+        fakeobj1.noop(val, document.title);
+        //console.log(val, document.title,'hub1');
+    });
+   
 });

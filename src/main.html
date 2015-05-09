@@ -3,8 +3,9 @@
 <head>
     <title>mainHub</title>
     <script src="../lib/jquery.js"></script>
+    <script src="tabHub.js"></script>
 </head>
-<script src="tabHub.js"></script>
+
 <body>
 
 <!--    <iframe src="sub1.html"></iframe>
@@ -17,15 +18,15 @@
         
         var ee;
         
-       var hub = tabHub('myVal', function (emit) {
-
-           ee = emit;
-           emit('dddd')
-       });
-
-       hub.onValue(function (d) {
-           console.log(d)
-       })
+//       var hub = tabHub('myVal', function (emit) {
+//
+//           ee = emit;
+//           emit('dddd')
+//       });
+//
+//       hub.onValue(function (d) {
+//           console.log(d)
+//       })
 
         $('button').click(function () {
 
