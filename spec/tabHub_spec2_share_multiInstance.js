@@ -1,6 +1,11 @@
 ﻿
 var fakeobj, hub, hub1, fakeobj1;
 
+var hubCount = 0;
+var hubCount1 = 0;
+
+ localStorage.clear();
+
 $(function () {
 
     fakeobj = fakeobj || {
@@ -16,6 +21,8 @@ $(function () {
 
     hub = tabHub('myVal_spec2_01', function (e) {
         //fakeobj.onceCb();
+        hubCount += 1;
+        console.log('run')
     });
 
 
@@ -27,6 +34,8 @@ $(function () {
     
     hub1 = tabHub('myVal_spec2_02', function (e) {
         //fakeobj1.onceCb();
+        hubCount1 +=1;
+         console.log('run1')
     });
 
 

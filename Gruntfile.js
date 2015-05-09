@@ -45,37 +45,48 @@ module.exports = function (grunt) {
       });
   });
   
-   ['11', '10', '9', '8'].forEach(function (val) {
+  ['11', '10', '9', '8'].forEach(function (val) {
       browsers.push({
-          browserName: 'internet explorer',
-          platform: 'WIN7',
-          version: val
+        browserName: 'internet explorer',
+        platform: 'WIN7',
+        version: val
       });
   });
+
+    browsers.push({
+        browserName: 'internet explorer',
+        platform: 'WIN8.1',
+        version: '11'
+    });
+
+    browsers.push({
+        browserName: 'internet explorer',
+        platform: 'WIN8',
+        version: '10'
+    });
+
+    browsers.push({
+        browserName: 'safari',
+        platform: 'OS X 10.10',
+        version: '8.0'
+    });
+    
+     browsers.push({
+        browserName: 'safari',
+        deviceName: 'iPad Simulator',
+        platform : 'OS X 10.10',
+        'device-orientation': 'portrait',
+        version: '8.2'
+    });
+    
   
-  ['11'].forEach(function (val) {
-      browsers.push({
-          browserName: 'internet explorer',
-          platform: 'WIN8.1',
-          version: val
-      });
-  });
-  
-  ['10'].forEach(function (val) {
-      browsers.push({
-          browserName: 'internet explorer',
-          platform: 'WIN8',
-          version: val
-      });
-  });
-  
-   ['7','6'].forEach(function (val) {
-      browsers.push({
-          browserName: 'internet explorer',
-          platform: 'XP',
-          version: val
-      });
-  });
+//   ['7','6'].forEach(function (val) {
+//      browsers.push({
+//          browserName: 'internet explorer',
+//          platform: 'XP',
+//          version: val
+//      });
+//  });
 
   ['dev','beta','37'].forEach(function (val) {
       browsers.push({

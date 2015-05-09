@@ -52,22 +52,25 @@
         childWindow.fakeobj.noop = spy3;
         childWindow.fakeobj1.noop = spy4;
         
-       
-
         $iframe.on('load', function () {
 
             setTimeout(function () {
-
-                expect(spy3).toHaveBeenCalledWith(
-                     'asd',
-                     'spec2_iframe'
-                );
-
-                expect(spy4).toHaveBeenCalledWith(
-                     'bsd',
-                     'spec2_iframe'
-                );
                 
+            expect(hubCount).toBe(0);
+            expect(hubCount1).toBe(0);
+
+            expect(childWindow.hubCount).toBe(0);
+            expect(childWindow.hubCount1).toBe(0);
+            
+            expect(spy3).toHaveBeenCalledWith(
+                 'asd',
+                 'spec2_iframe'
+            );
+
+            expect(spy4).toHaveBeenCalledWith(
+                 'bsd',
+                 'spec2_iframe'
+            );
                 //done();
 
                 var spy6 = jasmine.createSpy('spy6');
@@ -91,11 +94,13 @@
                         'spec2_iframe'
                     );
 
+
+
                     done();
 
                 }, 30);
 
-            }, 110);
+            }, 150);
 
         });
 

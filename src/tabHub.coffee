@@ -64,13 +64,15 @@ tabHub = (name, callback) ->
 		setTimeout(->
 			#console.log(out.lastValue, 'result', document.title)
 			#console.log(out.lastValue, 'lastValue')
+			
+			#console.log localStorage.getItem(name)
 			regeisterEvents()
 			
 			if emitTimes > 0 then return
 			
 			#console.log(name)
 			if eventArr = localStorage.getItem(name)?.split(':')
-				#console.log(eventArr)
+				#console.log(eventArr, document.title)
 				
 				if eventArr[0] is 'data'
 					#console.log(eventArr[1])
@@ -79,7 +81,7 @@ tabHub = (name, callback) ->
 						return
 				#else
 					#console.log('run cb', document.title)
-					
+			#console.log('runcb')		
 			callback(emit)
 
 	
