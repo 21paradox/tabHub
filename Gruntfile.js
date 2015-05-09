@@ -123,7 +123,8 @@ module.exports = function (grunt) {
           throttled: 3,
           sauceConfig: {
             'video-upload-on-pass': false
-          }
+          },
+         'pollInterval': 20
         }
       }
     },
