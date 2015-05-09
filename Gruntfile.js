@@ -124,7 +124,8 @@ module.exports = function (grunt) {
           sauceConfig: {
             'video-upload-on-pass': false
           },
-         'pollInterval': 20
+         pollInterval: 20000,
+         statusCheckAttempts: 100
         }
       }
     },
