@@ -14,94 +14,140 @@
  */
 var tabHub;
 
-tabHub = function(name, callback) {
-  var emit, emitTimes, noop, onValueArr, out, regeisterEvents;
-  emitTimes = 0;
-  emit = function(retValue) {
-    var i, len, onValuecb;
-    out.lastValue = retValue;
-    localStorage.setItem(name, "data:" + retValue);
-    for (i = 0, len = onValueArr.length; i < len; i++) {
-      onValuecb = onValueArr[i];
-      onValuecb.call(null, retValue);
-    }
-    return emitTimes += 1;
-  };
-  onValueArr = [];
-  localStorage.setItem(name, 'readable');
-  noop = $.noop;
-  if (typeof window.addEventListener === "function") {
-    window.addEventListener('storage', noop, false);
-  }
-  $(document).ready(function() {
-    return setTimeout(function() {
-      var eventArr, i, len, onValuecb, ref;
-      regeisterEvents();
-      if (emitTimes > 0) {
-        return;
+tabHub = (function() {
+
+  /*
+  	generate guid
+  	http://stackoverflow.com/questions/6248666/how-to-generate-short-uid-like-ax4j9z-in-js
+   */
+  var guid;
+  guid = ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4);
+  return function(name, callback) {
+    var emit, emitTimes, noop, onValueArr, out, regeisterEvents;
+    emitTimes = 0;
+    emit = function(retValue) {
+      var i, len, onValuecb;
+      out.lastValue = retValue;
+      localStorage.setItem(name, "data:" + guid + ":" + out.lastValue);
+      for (i = 0, len = onValueArr.length; i < len; i++) {
+        onValuecb = onValueArr[i];
+        onValuecb.call(null, retValue);
       }
-      if (eventArr = (ref = localStorage.getItem(name)) != null ? ref.split(':') : void 0) {
-        if (eventArr[0] === 'data') {
-          for (i = 0, len = onValueArr.length; i < len; i++) {
-            onValuecb = onValueArr[i];
-            onValuecb.call(null, eventArr[1]);
-            return;
+      return emitTimes += 1;
+    };
+    onValueArr = [];
+    noop = $.noop;
+    if (typeof window.addEventListener === "function") {
+      window.addEventListener('storage', noop, false);
+    }
+    localStorage.setItem(name, "readable:" + guid);
+    $(document).ready(function() {
+      return setTimeout(function() {
+        var eventArr, i, len, onValuecb, ref;
+        regeisterEvents();
+        if (emitTimes > 0) {
+          return;
+        }
+        if (eventArr = (ref = localStorage.getItem(name)) != null ? ref.split(':') : void 0) {
+          if (eventArr[0] === 'data') {
+            for (i = 0, len = onValueArr.length; i < len; i++) {
+              onValuecb = onValueArr[i];
+              onValuecb.call(null, eventArr[2]);
+              return;
+            }
           }
         }
-      }
-      return callback(emit);
-    }, 100);
-  });
-  regeisterEvents = function() {
-    $(window).on("storage." + name, function(e) {
-      var eventArr, eventData, eventType, i, key, len, newValue, onValuecb, results;
-      key = e.originalEvent.key;
-      newValue = e.originalEvent.newValue;
-      if (newValue == null) {
+        callback(emit);
+        return typeof window.removeEventListener === "function" ? window.removeEventListener('storage', noop, false) : void 0;
+      }, 100);
+    });
+    regeisterEvents = function() {
+      var IE, handler, ieHandler;
+      handler = function(e) {
+        var eventArr, eventData, eventType, i, key, len, newValue, onValuecb, results;
+        key = e.originalEvent.key;
         newValue = localStorage.getItem(name);
-      }
-      if (key === name) {
-        eventArr = newValue.split(':');
-        eventType = eventArr[0];
-        eventData = eventArr[1];
-        switch (eventType) {
-          case 'readable':
-            if (out.lastValue != null) {
-              return localStorage.setItem(name, "data:" + out.lastValue);
-            }
-            break;
-          case 'data':
-            if (eventData != null) {
-              out.lastValue = eventData;
-              results = [];
-              for (i = 0, len = onValueArr.length; i < len; i++) {
-                onValuecb = onValueArr[i];
-                results.push(onValuecb.call(null, eventData));
+        if (key === name && newValue === e.originalEvent.newValue) {
+          eventArr = newValue.split(':');
+          eventType = eventArr[0];
+          eventData = eventArr[2];
+          switch (eventType) {
+            case 'readable':
+              if (out.lastValue != null) {
+                return localStorage.setItem(name, "data:" + guid + ":" + out.lastValue);
               }
-              return results;
-            }
-        }
-      }
-    });
-    return $(window).on('unload', function() {
-      return $(window).off("storage");
-    });
-  };
-  return out = {
-    destory: function() {
-      return $(window).off("storage." + name);
-    },
-    onValue: function(cb) {
-      onValueArr.push(cb);
-      return function() {
-        var index;
-        index = $.inArray(cb, onValueArr);
-        if (index !== -1) {
-          return onValueArr.splice(index, 1);
+              break;
+            case 'data':
+              if (eventData != null) {
+                results = [];
+                for (i = 0, len = onValueArr.length; i < len; i++) {
+                  onValuecb = onValueArr[i];
+                  results.push(onValuecb.call(null, eventData));
+                }
+                return results;
+              }
+          }
         }
       };
-    },
-    lastValue: null,
-    emit: emit
+      ieHandler = function(e) {
+        var eventArr, eventData, eventGuid, eventType, i, key, len, newValue, onValuecb, results;
+        key = e.originalEvent.key;
+        newValue = e.originalEvent.newValue;
+        if (key === name) {
+          eventArr = newValue.split(':');
+          eventType = eventArr[0];
+          eventGuid = eventArr[1];
+          eventData = eventArr[2];
+          if (eventGuid === guid) {
+            return;
+          }
+          switch (eventType) {
+            case 'readable':
+              if (out.lastValue != null) {
+                return setTimeout(function() {
+                  var safeGet;
+                  safeGet = localStorage.getItem(name);
+                  if ((safeGet != null) && safeGet.split(':')['0'] === 'readable') {
+                    return localStorage.setItem(name, "data:" + guid + ":" + out.lastValue);
+                  }
+                }, 0);
+              }
+              break;
+            case 'data':
+              if (eventData != null) {
+                results = [];
+                for (i = 0, len = onValueArr.length; i < len; i++) {
+                  onValuecb = onValueArr[i];
+                  results.push(onValuecb.call(null, eventData));
+                }
+                return results;
+              }
+          }
+        }
+      };
+      IE = navigator.userAgent.indexOf("MSIE ") > -1 || navigator.userAgent.indexOf("Trident/") > -1;
+      $(window).on("storage." + name, IE ? ieHandler : handler);
+      return $(window).on('unload', function() {
+        return $(window).off("storage");
+      });
+    };
+    return out = {
+      destory: function() {
+        return $(window).off("storage." + name);
+      },
+      onValue: function(cb) {
+        onValueArr.push(cb);
+        return function() {
+          var index;
+          index = $.inArray(cb, onValueArr);
+          if (index !== -1) {
+            return onValueArr.splice(index, 1);
+          }
+        };
+      },
+      lastValue: null,
+      emit: emit,
+      guid: guid
+    };
   };
-};
+})();

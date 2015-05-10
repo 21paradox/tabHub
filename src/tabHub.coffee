@@ -13,116 +13,167 @@
 
 ###
 
-tabHub = (name, callback) ->
+tabHub = do ->
 	
-	emitTimes = 0
-
-	emit = (retValue) ->
-		out.lastValue = retValue
-		localStorage.setItem(name, "data:#{retValue}")
+	###
+	generate guid
+	http://stackoverflow.com/questions/6248666/how-to-generate-short-uid-like-ax4j9z-in-js
+	###
+	guid = `("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4)`
+	
+	return (name, callback) ->
+	
+		emitTimes = 0
+	
+		emit = (retValue) ->
+			out.lastValue = retValue
+			localStorage.setItem(name, "data:#{guid}:#{out.lastValue}")
+			
+			for onValuecb in onValueArr
+				onValuecb.call(null, retValue)
+			emitTimes += 1
 		
-		for onValuecb in onValueArr
-			onValuecb.call(null, retValue)
-		emitTimes += 1
-	
-	# onValue callback Array
-	onValueArr = [];
-	
-	# first remove this item
-	#localStorage.removeItem(name)
-	# then init readable stream
-	localStorage.setItem(name, 'readable')
-	
-	noop = $.noop;
-	
-	window.addEventListener?('storage', noop, false)
-	
-	# use timeout here to manually trigger async method
-	# because this will be run after other tabs update result
-	
-	$(document).ready(->
+		# onValue callback Array
+		onValueArr = [];
 		
-		setTimeout(->
-
-			regeisterEvents()
-			
-			if emitTimes > 0 then return
-			
-			if eventArr = localStorage.getItem(name)?.split(':')
-				
-				if eventArr[0] is 'data'
-					#console.log(eventArr[1])
-					for onValuecb in onValueArr
-						onValuecb.call(null, eventArr[1])
-						return
-			callback(emit)
-	
-#			if out.lastValue?
-#				for onValuecb in onValueArr
-#					onValuecb.call(null, out.lastValue)
-#			else
-#				#console.log('run cb', document.title)
-#				callback(emit)
-				
-		, 100)
-	)
-	
-	
-	regeisterEvents = ->
+		# set a noop function, hack for ie
+		noop = $.noop;
+		window.addEventListener?('storage', noop, false)
 		
-		$(window).on("storage.#{name}", (e) ->
+		# first remove this item
+		#localStorage.removeItem(name)
+		# then init readable stream
+		localStorage.setItem(name, "readable:#{guid}")
 			
-			key = e.originalEvent.key
-			#oldValue = e.originalEvent.oldValue
-			newValue = e.originalEvent.newValue 
-			# if newValue not exist assgin getItem
-			newValue?= localStorage.getItem(name) 
+		# use timeout here to manually trigger async method
+		# because this will be run after other tabs update result
+		
+		$(document).ready(->
 			
-			if key is name #and newValue? #and !document.hasFocus()
-
-				eventArr =  newValue.split(':')
-				eventType = eventArr[0]
-				eventData = eventArr[1]
-				
-				switch eventType
-					when 'readable'
-						# if other tab have lastValue then set data Event
-						if out.lastValue? 
-							#console.log('readable',out.lastValue)
-							localStorage.setItem(name, "data:#{out.lastValue}")
-						 	
-					when 'data'
-						if eventData?
-							out.lastValue = eventData
+			setTimeout(->
 	
-							for onValuecb in onValueArr
-								onValuecb.call(null, eventData)
+				regeisterEvents()
+				
+				if emitTimes > 0 then return
+				
+				if eventArr = localStorage.getItem(name)?.split(':')
+					#console.log eventArr
+					if eventArr[0] is 'data'
+						 
+						for onValuecb in onValueArr
+							onValuecb.call(null, eventArr[2])
+							return
+				callback(emit)
+				window.removeEventListener?('storage', noop, false)
+		
+	#			if out.lastValue?
+	#				for onValuecb in onValueArr
+	#					onValuecb.call(null, out.lastValue)
+	#			else
+	#				#console.log('run cb', document.title)
+	#				callback(emit)
+					
+			, 100)
 		)
 		
-		$(window).on('unload', -> $(window).off("storage"))
+
+		regeisterEvents = ->	
+			# register storage event
+			
+			handler = (e) ->
+				
+				key = e.originalEvent.key
+				newValue =  localStorage.getItem(name)
+				
+				if key is name and newValue is e.originalEvent.newValue
+				
+					eventArr =  newValue.split(':')
+					eventType = eventArr[0]
+					#eventGuid = eventArr[1]
+					eventData = eventArr[2]
+					
+					switch eventType
+						when 'readable'
+							# if other tab have lastValue then set data Event
+							if out.lastValue?
+								localStorage.setItem(name, "data:#{guid}:#{out.lastValue}") 
+								
+						when 'data'
+							if eventData?
+								for onValuecb in onValueArr
+									onValuecb.call(null, eventData)
+			
+			
+			ieHandler = (e) ->
+				
+				key = e.originalEvent.key
+				newValue = e.originalEvent.newValue 
+
+				if key is name 
+
+					eventArr =  newValue.split(':')
+					eventType = eventArr[0]
+					eventGuid = eventArr[1]
+					eventData = eventArr[2]
+					
+					# this hack is for IE http://stackoverflow.com/questions/18476564/ie-localstorage-event-misfired> 
+					if eventGuid is guid then return
+					
+					switch eventType
+						when 'readable'
+							# if other tab have lastValue then set data Event
+							if out.lastValue? 
+								#console.log('readable',out.lastValue)
+								setTimeout(->
+									safeGet = localStorage.getItem(name)
+									if safeGet? and safeGet.split(':')['0'] is 'readable'
+										localStorage.setItem(name, "data:#{guid}:#{out.lastValue}")					
+								, 0)
+				
+						when 'data'
+							if eventData?
+								for onValuecb in onValueArr
+									onValuecb.call(null, eventData)
+			
+			
+			# detect IE
+			IE = navigator.userAgent.indexOf("MSIE ") > -1 or navigator.userAgent.indexOf("Trident/") > -1;
+			
+			$(window).on("storage.#{name}", if IE then ieHandler else handler)
+			
+			$(window).on('unload', -> $(window).off("storage"))
 		
+		
+		
+		out = {
 	
-	out = {
+			destory: -> $(window).off("storage.#{name}"),
+	
+			onValue: (cb) ->
+				onValueArr.push(cb)
+	
+				return ->
+					index = $.inArray(cb, onValueArr)
+					if index isnt -1 then onValueArr.splice(index, 1);
+			,
+			lastValue: null,
+			emit: emit,
+			guid: guid
+		}
+	
 
-		destory: -> $(window).off("storage.#{name}"),
 
-		onValue: (cb) ->
-			onValueArr.push(cb)
 
-			return ->
-				index = $.inArray(cb, onValueArr)
-				if index isnt -1 then onValueArr.splice(index, 1);
-		,
-		lastValue: null,
-		emit: emit
-	}
 
-#	  
+
+
+
+	  
 #`var hub = tabHub('myVal', function (emit) {
 #
 #   setTimeout(function(){
 #	   
-#	   console.log('run123')
+#	   $('body').append('run123')
 #	   
 #	   emit(Math.random(100));
 #   },1000)
@@ -130,5 +181,8 @@ tabHub = (name, callback) ->
 #});
 #
 #hub.onValue(function (d) {
-#   console.log(d)
+#  // console.log(d)
+#  
+#  $('#body').append('onvalue: ' + d);
+# 
 #})`;

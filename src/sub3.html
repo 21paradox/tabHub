@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>sub3</title>
+    <script src="../lib/jquery.js"></script>
+    <script src="tabHub.js"></script>
+</head>
+<body>
+
+<button id="btn1"> asd</button>
+
+<button id="btn2">asd</button>
+
+<script>
+    
+    $(btn1).click(function name(params) {
+       
+       //localStorage.setItem('test', 'test123');
+        
+        var evt = document.createEvent('StorageEvent');
+        
+        evt.initStorageEvent('storage',
+                            true,
+                            true,
+                            'test',
+                            'oldValue',
+                            'newValue',
+                            window.location.href
+                            ,window.localStorage);
+    
+        window.dispatchEvent(evt);
+        
+    });
+    
+    $(btn2).click(function name(params) {
+       
+       localStorage.clear();
+       localStorage.setItem('test', document.title);
+       
+        
+    });
+    
+    
+    $(window).on('storage', function name(e) {
+        
+        var originEvent = e.originalEvent;
+        
+        console.log(originEvent)
+        console.log(originEvent.srcElement === window)
+        
+    });
+    
+</script>
+
+
+</body>
+</html>

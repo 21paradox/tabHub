@@ -41,7 +41,7 @@
                 emit('myOut');
 
                 expect(count).toBe(1);
-                expect(localStorage.getItem('myVal')).toBe('data:myOut');
+                expect(localStorage.getItem('myVal')).toBe('data:'+ hub.guid +':myOut');
 
                 expect(spy).toHaveBeenCalledWith('myOut');
                 expect(spy.calls.count()).toBe(1);
@@ -72,7 +72,7 @@
                 emit('myOut1');
 
                 expect(count1).toBe(1);
-                expect(localStorage.getItem('myVal1')).toBe('data:myOut1');
+                expect(localStorage.getItem('myVal1')).toBe('data:'+ hub1.guid +':myOut1');
 
                 expect(spy1).toHaveBeenCalledWith('myOut1');
                 expect(spy1.calls.count()).toBe(1);
@@ -94,7 +94,7 @@
                 emit('myOut2');
 
                 expect(count2).toBe(1);
-                expect(localStorage.getItem('myVal2')).toBe('data:myOut2');
+                expect(localStorage.getItem('myVal2')).toBe('data:'+ hub2.guid +':myOut2');
 
                 expect(spy2).toHaveBeenCalledWith('myOut2');
                 expect(spy2.calls.count()).toBe(1);
@@ -122,7 +122,7 @@
             $(window).off('storage');
         }
 
-        setTimeout(function () {
+       // setTimeout(function () {
 
 
             var count1 = 0;
@@ -137,7 +137,7 @@
                         emit('myOute')
 
                         expect(count1).toBe(1);
-                        expect(localStorage.getItem('myVal1')).toBe('data:myOute');
+                        expect(localStorage.getItem('myVal1')).toBe('data:'+ hub1.guid +':myOute');
 
                         expect(spy).toHaveBeenCalledWith('myOut1');
                         expect(spy).toHaveBeenCalledWith('myOute');
@@ -157,7 +157,7 @@
                 hub1.onValue(spy);
             });
 
-        }, 10);
+       // }, 10);
 
     });
 
@@ -170,7 +170,7 @@
         // setTimeout here is hack for ie
         // will be fixed in the future
 
-        setTimeout(function () {
+        //setTimeout(function () {
 
             var count1 = 0;
             hub1 = tabHub('myVal1', function (emit) {
@@ -181,7 +181,7 @@
                 emit('myOute')
 
                 expect(count1).toBe(1);
-                expect(localStorage.getItem('myVal1')).toBe('data:myOute');
+                expect(localStorage.getItem('myVal1')).toBe('data:'+ hub1.guid +':myOute');
 
                 expect(spy).toHaveBeenCalledWith('myOut1');
                 expect(spy).toHaveBeenCalledWith('myOute');
@@ -194,7 +194,7 @@
             hub1.onValue(spy);
 
 
-        }, 10);
+        //}, 10);
 
     });
 
