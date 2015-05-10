@@ -22,7 +22,7 @@ $(function () {
     hub = tabHub('myVal_spec2_01', function (e) {
         //fakeobj.onceCb();
         hubCount += 1;
-        console.log('run')
+        //console.log('run')
     });
 
 
@@ -35,7 +35,7 @@ $(function () {
     hub1 = tabHub('myVal_spec2_02', function (e) {
         //fakeobj1.onceCb();
         hubCount1 +=1;
-         console.log('run1')
+         //console.log('run1')
     });
 
 

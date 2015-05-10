@@ -17,28 +17,62 @@ var tabHub;
 tabHub = (function() {
 
   /*
-  	generate guid
-  	http://stackoverflow.com/questions/6248666/how-to-generate-short-uid-like-ax4j9z-in-js
+  		generate guid
+  		http://stackoverflow.com/questions/6248666/how-to-generate-short-uid-like-ax4j9z-in-js
    */
   var guid;
   guid = ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4);
   return function(name, callback) {
-    var emit, emitTimes, noop, onValueArr, out, regeisterEvents;
-    emitTimes = 0;
-    emit = function(retValue) {
-      var i, len, onValuecb;
-      out.lastValue = retValue;
-      localStorage.setItem(name, "data:" + guid + ":" + out.lastValue);
-      for (i = 0, len = onValueArr.length; i < len; i++) {
-        onValuecb = onValueArr[i];
-        onValuecb.call(null, retValue);
-      }
-      return emitTimes += 1;
+    var IE, IE8, addCookie, emit, emitTimes, noop, onValueArr, out, regeisterEvents;
+    IE = navigator.userAgent.indexOf("MSIE ") > -1 || navigator.userAgent.indexOf("Trident/") > -1;
+    IE8 = 'onstorage' in document && IE;
+
+    /* 
+    			set tabHub_emit_key key to cookie, and will expire after 1.2 second
+    			http://stackoverflow.com/questions/14573223/set-cookie-and-get-cookie-with-javascript
+     */
+    addCookie = function(val) {
+      var date;
+      date = new Date();
+      date.setTime(date.getTime() + 3000);
+      document.cookie = "tabHub_emit_key=" + name + "; expires=" + (date.toUTCString()) + "; path=/";
+      return document.cookie = "tabHub_emit_val=" + val + "; expires=" + (date.toUTCString()) + "; path=/";
     };
+    emitTimes = 0;
+    if (IE8) {
+      emit = function(retValue) {
+        var i, len, onValuecb;
+        out.lastValue = retValue;
+        localStorage.setItem(name, "data:" + guid + ":" + out.lastValue);
+        for (i = 0, len = onValueArr.length; i < len; i++) {
+          onValuecb = onValueArr[i];
+          onValuecb.call(null, retValue);
+        }
+        return emitTimes += 1;
+      };
+    } else {
+      emit = function(retValue) {
+        var i, len, onValuecb, val;
+        out.lastValue = retValue;
+        val = "data:" + guid + ":" + out.lastValue;
+        addCookie(val);
+        localStorage.setItem(name, val);
+        for (i = 0, len = onValueArr.length; i < len; i++) {
+          onValuecb = onValueArr[i];
+          onValuecb.call(null, retValue);
+        }
+        return emitTimes += 1;
+      };
+    }
     onValueArr = [];
     noop = $.noop;
-    if (typeof window.addEventListener === "function") {
-      window.addEventListener('storage', noop, false);
+    if (IE8) {
+      $(document).on('storage.noop', noop);
+    } else {
+      $(window).on('storage.noop', noop);
+    }
+    if (IE8) {
+      addCookie("readable:" + guid);
     }
     localStorage.setItem(name, "readable:" + guid);
     $(document).ready(function() {
@@ -58,11 +92,15 @@ tabHub = (function() {
           }
         }
         callback(emit);
-        return typeof window.removeEventListener === "function" ? window.removeEventListener('storage', noop, false) : void 0;
-      }, 100);
+        if (IE8) {
+          return $(document).off('storage.noop');
+        } else {
+          return $(window).off('storage.noop');
+        }
+      }, IE8 ? 150 : 100);
     });
     regeisterEvents = function() {
-      var IE, handler, ieHandler;
+      var handler, handlerFn, ie8Handler, ieHandler;
       handler = function(e) {
         var eventArr, eventData, eventType, i, key, len, newValue, onValuecb, results;
         key = e.originalEvent.key;
@@ -125,11 +163,68 @@ tabHub = (function() {
           }
         }
       };
-      IE = navigator.userAgent.indexOf("MSIE ") > -1 || navigator.userAgent.indexOf("Trident/") > -1;
-      $(window).on("storage." + name, IE ? ieHandler : handler);
-      return $(window).on('unload', function() {
-        return $(window).off("storage");
-      });
+      ie8Handler = function(e) {
+
+        /*
+        					getCookie
+        					https://developer.mozilla.org/en-US/docs/Web/API/document/cookie
+         */
+        var eventArr, eventData, eventGuid, eventType, i, key, len, newValue, onValuecb, results;
+        key = document.cookie.replace(/(?:(?:^|.*;\s*)tabHub_emit_key\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        if (key === name) {
+          newValue = document.cookie.replace(/(?:(?:^|.*;\s*)tabHub_emit_val\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+          eventArr = newValue.split(':');
+          eventType = eventArr[0];
+          eventGuid = eventArr[1];
+          eventData = eventArr[2];
+          if (eventGuid === guid) {
+            return;
+          }
+          if (newValue == null) {
+            return;
+          }
+          switch (eventType) {
+            case 'readable':
+              if (out.lastValue != null) {
+                return setTimeout(function() {
+                  var safeGet, val;
+                  safeGet = localStorage.getItem(name);
+                  if ((safeGet != null) && safeGet.split(':')['0'] === 'readable') {
+                    val = "data:" + guid + ":" + out.lastValue;
+                    addCookie(val);
+                    return localStorage.setItem(name, val);
+                  }
+                }, 0);
+              }
+              break;
+            case 'data':
+              if (eventData != null) {
+                results = [];
+                for (i = 0, len = onValueArr.length; i < len; i++) {
+                  onValuecb = onValueArr[i];
+                  results.push(onValuecb.call(null, eventData));
+                }
+                return results;
+              }
+          }
+        }
+      };
+      if (IE8) {
+        $(document).on("storage." + name, ie8Handler);
+        return $(window).on('unload', function() {
+          return $(document).off("storage");
+        });
+      } else {
+        if (IE) {
+          handlerFn = ieHandler;
+        } else {
+          handlerFn = handler;
+        }
+        $(window).on("storage." + name, handlerFn);
+        return $(window).on('unload', function() {
+          return $(window).off("storage");
+        });
+      }
     };
     return out = {
       destory: function() {

@@ -4,6 +4,7 @@
     <title>sub4</title>
     <script src="../lib/jquery.js"></script>
     <script src="tabHub.js"></script>
+     <script src="cookie.js"></script>
 </head>
 <body>
 
@@ -37,11 +38,19 @@
        localStorage.clear();
        localStorage.setItem('test', document.title);
        //console.log(new Date().getTime(),'afterSetitem');
+       
+       Cookie.set('bar', 4, {
+            //domain: 'example.com',
+            path: '/',
+            expires: 30
+       });
+       
+       console.log(document.cookie)
         
     });
     
     
-    $(window).on('storage', function name(e) {
+    $(document).on('storage', function name(e) {
         
         var originEvent = e.originalEvent;
         

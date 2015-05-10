@@ -1,5 +1,7 @@
 ﻿describe('test tabHub for only one page', function () {
 
+    var IE8 = 'onstorage' in document;
+
     beforeEach(function () {
         // use a clean state
         localStorage.clear();
@@ -98,9 +100,9 @@
 
                     done();
 
-                }, 30);
+                }, IE8? 60: 30);
 
-            }, 150);
+            }, IE8? 200: 150);
 
         });
 
