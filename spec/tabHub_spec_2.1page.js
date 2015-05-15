@@ -5,7 +5,7 @@
     beforeEach(function () {
         // use a clean state
         localStorage.clear();
-     });
+    });
 
     afterEach(function () {
         // clean all events
@@ -28,92 +28,96 @@
         hub.emit('asd');
         hub1.emit('bsd');
 
-        expect(spy).toHaveBeenCalledWith(
-               'asd',
-               'spec2_main'
-             );
+        setTimeout(function () {
 
-        expect(spy1).toHaveBeenCalledWith(
-               'bsd',
-               'spec2_main'
-             );
+            expect(spy).toHaveBeenCalledWith(
+                'asd',
+                'spec2_main'
+                );
 
- 
-        var $iframe = $('<iframe src="spec/tabHub_spec2_iframe_multiInstance.html"></iframe>');
+            expect(spy1).toHaveBeenCalledWith(
+                'bsd',
+                'spec2_main'
+                );
 
-        $('body').append($iframe);
 
-        var childWindow = $iframe[0].contentWindow;
+            var $iframe = $('<iframe src="spec/tabHub_spec2_iframe_multiInstance.html"></iframe>');
 
-        var spy3 = jasmine.createSpy('spy3');
-        var spy4 = jasmine.createSpy('spy4');
+            $('body').append($iframe);
 
-        childWindow.fakeobj = {};
-        childWindow.fakeobj1 = {};
+            var childWindow = $iframe[0].contentWindow;
 
-        childWindow.fakeobj.noop = spy3;
-        childWindow.fakeobj1.noop = spy4;
-        
-        $iframe.on('load', function () {
+            var spy3 = jasmine.createSpy('spy3');
+            var spy4 = jasmine.createSpy('spy4');
 
-            setTimeout(function () {
-                
-            expect(hubCount).toBe(0);
-            expect(hubCount1).toBe(0);
+            childWindow.fakeobj = {};
+            childWindow.fakeobj1 = {};
 
-            expect(childWindow.hubCount).toBe(0);
-            expect(childWindow.hubCount1).toBe(0);
-            
-            
-            
-            if (!IE8) {
+            childWindow.fakeobj.noop = spy3;
+            childWindow.fakeobj1.noop = spy4;
 
-                expect(spy3).toHaveBeenCalledWith(
-                    'asd',
-                    'spec2_iframe'
-                    );
-
-                expect(spy4).toHaveBeenCalledWith(
-                    'bsd',
-                    'spec2_iframe'
-                    );
-
-            }
-                //done();
-
-                var spy6 = jasmine.createSpy('spy6');
-                var spy7 = jasmine.createSpy('spy7');
-
-                childWindow.fakeobj.noop = spy6;
-                childWindow.fakeobj1.noop = spy7;
-
-                childWindow.hub.emit('csd');
-                childWindow.hub1.emit('dsd');
+            $iframe.on('load', function () {
 
                 setTimeout(function () {
 
+                    expect(hubCount).toBe(0);
+                    expect(hubCount1).toBe(0);
+
+                    expect(childWindow.hubCount).toBe(0);
+                    expect(childWindow.hubCount1).toBe(0);
+
+
+
                     if (!IE8) {
-                        expect(spy6).toHaveBeenCalledWith(
-                            'csd',
+
+                        expect(spy3).toHaveBeenCalledWith(
+                            'asd',
                             'spec2_iframe'
                             );
 
-                        expect(spy7).toHaveBeenCalledWith(
-                            'dsd',
+                        expect(spy4).toHaveBeenCalledWith(
+                            'bsd',
                             'spec2_iframe'
                             );
+
                     }
-                   
+                    //done();
+
+                    var spy6 = jasmine.createSpy('spy6');
+                    var spy7 = jasmine.createSpy('spy7');
+
+                    childWindow.fakeobj.noop = spy6;
+                    childWindow.fakeobj1.noop = spy7;
+
+                    childWindow.hub.emit('csd');
+                    childWindow.hub1.emit('dsd');
+
+                    setTimeout(function () {
+
+                        if (!IE8) {
+                            expect(spy6).toHaveBeenCalledWith(
+                                'csd',
+                                'spec2_iframe'
+                                );
+
+                            expect(spy7).toHaveBeenCalledWith(
+                                'dsd',
+                                'spec2_iframe'
+                                );
+                        }
 
 
+                        done();
 
-                    done();
+                    }, 30);
 
-                },  30);
+                }, 150);
 
-            }, 150);
+            });
 
-        });
+        }, 110);
+
+
 
     });
 
