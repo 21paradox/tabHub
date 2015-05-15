@@ -1,6 +1,7 @@
 ﻿
 //javascript snippet shared across pages
 var hubCount = 0;
+var onValueCount = 0;
 
 localStorage.clear();
 
@@ -15,7 +16,7 @@ $(function () {
 
 
     hub = tabHub('myVal_spec2', function (e) {
-
+        
         fakeobj.onceCb();
         hubCount += 1;
         
@@ -23,8 +24,15 @@ $(function () {
 
 
     hub.onValue(function (val) {
-       
+        
         fakeobj.noop(val, document.title);
+        onValueCount += 1;
+        //nameStorage only exists in iframe
+        if (document.title == 'spec2_iframe') {
+            
+ 
+        }
+ 
     });
 
 });

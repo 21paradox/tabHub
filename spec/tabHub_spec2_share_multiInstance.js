@@ -23,6 +23,7 @@ $(function () {
         //fakeobj.onceCb();
         hubCount += 1;
         //console.log('run')
+        alert(document.title)
     });
 
 

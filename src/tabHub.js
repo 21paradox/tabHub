@@ -28,22 +28,23 @@ tabHub = (function() {
     IE8 = 'onstorage' in document && IE;
 
     /* 
-    			set tabHub_emit_key key to cookie, and will expire after 1.2 second
+    			set tabHub_emit_key key to cookie, and will expire after 1 second
     			http://stackoverflow.com/questions/14573223/set-cookie-and-get-cookie-with-javascript
      */
     addCookie = function(val) {
       var date;
       date = new Date();
-      date.setTime(date.getTime() + 3000);
-      document.cookie = "tabHub_emit_key=" + name + "; expires=" + (date.toUTCString()) + "; path=/";
-      return document.cookie = "tabHub_emit_val=" + val + "; expires=" + (date.toUTCString()) + "; path=/";
+      date.setTime(date.getTime() + 1000);
+      return document.cookie = "tabHub_emit_" + name + "=" + val + "; expires=" + (date.toUTCString()) + "; path=/";
     };
     emitTimes = 0;
     if (IE8) {
       emit = function(retValue) {
-        var i, len, onValuecb;
+        var i, len, onValuecb, val;
         out.lastValue = retValue;
-        localStorage.setItem(name, "data:" + guid + ":" + out.lastValue);
+        val = "data:" + guid + ":" + out.lastValue;
+        addCookie(val);
+        localStorage.setItem(name, val);
         for (i = 0, len = onValueArr.length; i < len; i++) {
           onValuecb = onValueArr[i];
           onValuecb.call(null, retValue);
@@ -52,11 +53,9 @@ tabHub = (function() {
       };
     } else {
       emit = function(retValue) {
-        var i, len, onValuecb, val;
+        var i, len, onValuecb;
         out.lastValue = retValue;
-        val = "data:" + guid + ":" + out.lastValue;
-        addCookie(val);
-        localStorage.setItem(name, val);
+        localStorage.setItem(name, "data:" + guid + ":" + out.lastValue);
         for (i = 0, len = onValueArr.length; i < len; i++) {
           onValuecb = onValueArr[i];
           onValuecb.call(null, retValue);
@@ -84,6 +83,7 @@ tabHub = (function() {
         }
         if (eventArr = (ref = localStorage.getItem(name)) != null ? ref.split(':') : void 0) {
           if (eventArr[0] === 'data') {
+            out.lastValue = eventArr[2];
             for (i = 0, len = onValueArr.length; i < len; i++) {
               onValuecb = onValueArr[i];
               onValuecb.call(null, eventArr[2]);
@@ -97,7 +97,7 @@ tabHub = (function() {
         } else {
           return $(window).off('storage.noop');
         }
-      }, IE8 ? 150 : 100);
+      }, 100);
     });
     regeisterEvents = function() {
       var handler, handlerFn, ie8Handler, ieHandler;
@@ -169,10 +169,9 @@ tabHub = (function() {
         					getCookie
         					https://developer.mozilla.org/en-US/docs/Web/API/document/cookie
          */
-        var eventArr, eventData, eventGuid, eventType, i, key, len, newValue, onValuecb, results;
-        key = document.cookie.replace(/(?:(?:^|.*;\s*)tabHub_emit_key\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-        if (key === name) {
-          newValue = document.cookie.replace(/(?:(?:^|.*;\s*)tabHub_emit_val\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        var eventArr, eventData, eventGuid, eventType, i, len, newValue, onValuecb, results;
+        newValue = document.cookie.replace(RegExp("(?:(?:^|.*;\\s*)tabHub_emit_" + name + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1");
+        if (newValue) {
           eventArr = newValue.split(':');
           eventType = eventArr[0];
           eventGuid = eventArr[1];

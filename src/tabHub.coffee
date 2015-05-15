@@ -31,14 +31,15 @@ tabHub = do ->
 		
 	
 		### 
-			set tabHub_emit_key key to cookie, and will expire after 1.2 second
+			set tabHub_emit_key key to cookie, and will expire after 1 second
 			http://stackoverflow.com/questions/14573223/set-cookie-and-get-cookie-with-javascript
 		###
 		addCookie = (val) ->
 			date = new Date()
-			date.setTime(date.getTime() + 3000)
-			document.cookie = "tabHub_emit_key=#{name}; expires=#{date.toUTCString()}; path=/"
-			document.cookie = "tabHub_emit_val=#{val}; expires=#{date.toUTCString()}; path=/"	
+			date.setTime(date.getTime() + 1000)
+			document.cookie = "tabHub_emit_#{name}=#{val}; expires=#{date.toUTCString()}; path=/"
+			#document.cookie = "tabHub_emit_key=#{name}; expires=#{date.toUTCString()}; path=/"	
+			#document.cookie = "tabHub_emit_val=#{val}; expires=#{date.toUTCString()}; path=/"	
 	
 		# count the emit times
 		emitTimes = 0
@@ -46,7 +47,10 @@ tabHub = do ->
 		if IE8 
 			emit = (retValue) ->
 				out.lastValue = retValue
-				localStorage.setItem(name, "data:#{guid}:#{out.lastValue}")
+				# ie8 will add Cookie for key
+				val = "data:#{guid}:#{out.lastValue}"
+				addCookie(val)
+				localStorage.setItem(name, val)
 				
 				for onValuecb in onValueArr
 					onValuecb.call(null, retValue)
@@ -54,10 +58,7 @@ tabHub = do ->
 		else 
 			emit = (retValue) ->
 				out.lastValue = retValue
-				# ie8 will add Cookie for key
-				val = "data:#{guid}:#{out.lastValue}"
-				addCookie(val)
-				localStorage.setItem(name, val)
+				localStorage.setItem(name, "data:#{guid}:#{out.lastValue}")
 				
 				for onValuecb in onValueArr
 					onValuecb.call(null, retValue)
@@ -90,6 +91,7 @@ tabHub = do ->
 					#console.log eventArr
 					if eventArr[0] is 'data'
 						 
+						out.lastValue = eventArr[2]
 						for onValuecb in onValueArr
 							onValuecb.call(null, eventArr[2])
 							return
@@ -99,7 +101,8 @@ tabHub = do ->
 				if IE8 then $(document).off('storage.noop')
 				else $(window).off('storage.noop')
 		
-			, if IE8 then 150 else 100)
+			, #if IE8 then 150 else 
+			100)
 		)
 		
 
@@ -167,11 +170,16 @@ tabHub = do ->
 					getCookie
 					https://developer.mozilla.org/en-US/docs/Web/API/document/cookie
 				### 
-				key = document.cookie.replace(/(?:(?:^|.*;\s*)tabHub_emit_key\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-
-				if key is name 
+				#key = document.cookie.replace(/(?:(?:^|.*;\s*)tabHub_emit_key\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+				newValue = document.cookie.replace(///
+												(?:(?:^|.*;\s*)
+												tabHub_emit_#{name}
+												\s*\=\s*([^;]*).*$)|^.*$
+												///, "$1");
+				#if key is name 
+				if newValue
 					
-					newValue = document.cookie.replace(/(?:(?:^|.*;\s*)tabHub_emit_val\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+					#newValue = document.cookie.replace(/(?:(?:^|.*;\s*)tabHub_emit_val\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 					eventArr =  newValue.split(':')
 					eventType = eventArr[0]
 					eventGuid = eventArr[1]
@@ -237,7 +245,7 @@ tabHub = do ->
 
 
 
-#
+
 #`var hub = tabHub('myVal', function (emit) {
 #
 #   setTimeout(function(){

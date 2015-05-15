@@ -64,15 +64,21 @@
             expect(childWindow.hubCount).toBe(0);
             expect(childWindow.hubCount1).toBe(0);
             
-            expect(spy3).toHaveBeenCalledWith(
-                 'asd',
-                 'spec2_iframe'
-            );
+            
+            
+            if (!IE8) {
 
-            expect(spy4).toHaveBeenCalledWith(
-                 'bsd',
-                 'spec2_iframe'
-            );
+                expect(spy3).toHaveBeenCalledWith(
+                    'asd',
+                    'spec2_iframe'
+                    );
+
+                expect(spy4).toHaveBeenCalledWith(
+                    'bsd',
+                    'spec2_iframe'
+                    );
+
+            }
                 //done();
 
                 var spy6 = jasmine.createSpy('spy6');
@@ -86,23 +92,26 @@
 
                 setTimeout(function () {
 
-                    expect(spy6).toHaveBeenCalledWith(
-                        'csd',
-                        'spec2_iframe'
-                    );
+                    if (!IE8) {
+                        expect(spy6).toHaveBeenCalledWith(
+                            'csd',
+                            'spec2_iframe'
+                            );
 
-                    expect(spy7).toHaveBeenCalledWith(
-                        'dsd',
-                        'spec2_iframe'
-                    );
+                        expect(spy7).toHaveBeenCalledWith(
+                            'dsd',
+                            'spec2_iframe'
+                            );
+                    }
+                   
 
 
 
                     done();
 
-                }, IE8? 60: 30);
+                },  30);
 
-            }, IE8? 200: 150);
+            }, 150);
 
         });
 
