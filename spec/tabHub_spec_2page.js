@@ -6,7 +6,7 @@
         // use a clean state
         localStorage.clear();
         window.myVal_spec2 = null;
-        
+
     });
 
     afterEach(function () {
@@ -17,7 +17,7 @@
 
     });
 
-   if (!IE8) {
+    if (!IE8) {
 
         // ie8 cannot spyon ifram object
         it('firstEnter main page, then iframe(iframe should not call), iframe emit mainpage getData', function (done) {
@@ -60,7 +60,7 @@
                             'asd',
                             'spec2_iframe'
                             );
-                            
+
 
                         expect(spy4).not.toHaveBeenCalled();
 
@@ -78,10 +78,10 @@
                                 'spec2_main'
                                 );
 
-//                            expect(spy3).toHaveBeenCalledWith(
-//                                'ddd',
-//                                'spec2_iframe'
-//                            );
+                            //                            expect(spy3).toHaveBeenCalledWith(
+                            //                                'ddd',
+                            //                                'spec2_iframe'
+                            //                            );
 
 
 
@@ -99,40 +99,40 @@
         });
 
     } else {
-        
+
         it('firstEnter main page, then iframe(iframe should not call), iframe emit mainpage getData', function (done) {
-            
-           var spy = jasmine.createSpy('spy');
+
+            var spy = jasmine.createSpy('spy');
             var spy1 = jasmine.createSpy('onceCb');
 
             fakeobj.noop = spy;
             fakeobj.onceCb = spy1;
-            
-            setTimeout(function() {
-                
+
+            setTimeout(function () {
+
                 expect(spy1).toHaveBeenCalled();
-                
+
                 hub.emit('asd');
 
                 expect(spy).toHaveBeenCalledWith(
                     'asd',
                     'spec2_main'
                     );
-                    
+
                 var $iframe = $('<iframe src="spec/tabHub_spec2_iframe.html"></iframe>');
 
                 $('body').append($iframe);
 
-                var childWindow = $iframe[0].contentWindow; 
-                
-                $iframe.on('load', function () {
-                    
-                   setTimeout(function() {
+                var childWindow = $iframe[0].contentWindow;
 
-                       expect(childWindow.onValueCount).toBe(1);
-                       expect(childWindow.hubCount).toBe(0);
-                       
-                       childWindow.hub.emit('ddd');
+                $iframe.on('load', function () {
+
+                    setTimeout(function () {
+
+                        expect(childWindow.onValueCount).toBe(1);
+                        expect(childWindow.hubCount).toBe(0);
+
+                        childWindow.hub.emit('ddd');
 
                         setTimeout(function () {
 
@@ -140,22 +140,22 @@
                                 'ddd',
                                 'spec2_main'
                                 );
-                                
+
                             done();
 
                         }, 50);
-                       
 
-                   }, 110); 
-                   
-                });    
-  
+
+                    }, 110);
+
+                });
+
             }, 110);
-           
-        });  
-        
-   }
-    
+
+        });
+
+    }
+
 
 
 });
