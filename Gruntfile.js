@@ -37,27 +37,21 @@ module.exports = function (grunt) {
   browsers = [];
 
   //  CHROME
-      browsers.push({
-          browserName: 'googlechrome',
-          platform: 'WIN7',
-          version: '41'
-      });
-      browsers.push({
-          browserName: 'googlechrome',
-          platform: 'WIN8.1',
-          version: '41'
-      });
-      browsers.push({
-          browserName: 'googlechrome',
-          platform: 'WIN8',
-          version: '41'
-      });
-       browsers.push({
-          browserName: 'googlechrome',
-          platform: 'XP',
-          version: '41'
-      });
+      
+   ['dev', 'beta', '42', '41', '38', '28'].forEach(function (version) {
 
+     ['WIN7', 'WIN8.1', 'WIN8', 'XP'].forEach(function (platform) {
+
+       browsers.push({
+             browserName: 'googlechrome',
+             platform: platform,
+             version: version
+       });
+
+     });
+     
+   });
+      
   
   ['11', '10', '9', '8'].forEach(function (val) {
       browsers.push({
@@ -66,26 +60,53 @@ module.exports = function (grunt) {
         version: val
       });
   });
-
-    browsers.push({
+  
+  browsers.concat([
+    
+    {
         browserName: 'internet explorer',
         platform: 'WIN8.1',
         version: '11'
-    });
-
-    browsers.push({
+    },
+    
+    {
         browserName: 'internet explorer',
         platform: 'WIN8',
         version: '10'
-    });
-
-    browsers.push({
+    },
+    
+    {
+      browserName: 'internet explorer',
+      platform: 'XP',
+      version: '8'
+    },
+    
+    {
         browserName: 'safari',
         platform: 'OS X 10.10',
         version: '8.0'
-    });
+    },
     
+    {
+      browserName: 'firefox',
+      platform: 'WIN7',
+      version: 37
+    },
+
+    {
+      browserName: 'firefox',
+      platform: 'WIN8',
+      version: 37
+    },
   
+    {
+      browserName: 'firefox',
+      platform: 'WIN8.1',
+      version: 37
+    }
+  
+  ]);
+ 
 //   ['7','6'].forEach(function (val) {
 //      browsers.push({
 //          browserName: 'internet explorer',
@@ -93,24 +114,6 @@ module.exports = function (grunt) {
 //          version: val
 //      });
 //  });
-
-  browsers.push({
-          browserName: 'firefox',
-          platform: 'WIN7',
-          version: 37
-  });
-  
-    browsers.push({
-          browserName: 'firefox',
-          platform: 'WIN8',
-          version: 37
-  });
-  
-    browsers.push({
-          browserName: 'firefox',
-          platform: 'WIN8.1',
-          version: 37
-  });
 
 
   grunt.initConfig({
