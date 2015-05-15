@@ -38,55 +38,54 @@ module.exports = function (grunt) {
 
   //  CHROME
       
-   ['42', '28'].forEach(function (version) {
+  ['42', '28'].forEach(function (version) {
 
-     ['WIN7', 'WIN8.1', 'WIN8', 'XP'].forEach(function (platform) {
+    ['WIN7', 'WIN8.1', 'WIN8', 'XP'].forEach(function (platform) {
 
-       browsers.push({
-             browserName: 'googlechrome',
-             platform: platform,
-             version: version
-       });
-
-     });
-     
-   });
-      
-  
-  ['11', '10', '9', '8'].forEach(function (val) {
       browsers.push({
-        browserName: 'internet explorer',
-        platform: 'WIN7',
-        version: val
+        browserName: 'googlechrome',
+        platform: platform,
+        version: version
       });
+
+    });
   });
-  
-  browsers.concat([
-    
+
+
+  ['11', '10', '9', '8'].forEach(function (val) {
+    browsers.push({
+      browserName: 'internet explorer',
+      platform: 'WIN7',
+      version: val
+    });
+  });
+
+  browsers = browsers.concat([
+
     {
-        browserName: 'internet explorer',
-        platform: 'WIN8.1',
-        version: '11'
+      browserName: 'internet explorer',
+      platform: 'WIN8.1',
+      version: '11'
     },
-    
+
     {
-        browserName: 'internet explorer',
-        platform: 'WIN8',
-        version: '10'
+      browserName: 'internet explorer',
+      platform: 'WIN8',
+      version: '10'
     },
-    
+
     {
       browserName: 'internet explorer',
       platform: 'XP',
       version: '8'
     },
-    
+
     {
-        browserName: 'safari',
-        platform: 'OS X 10.10',
-        version: '8.0'
+      browserName: 'safari',
+      platform: 'OS X 10.10',
+      version: '8.0'
     },
-    
+
     {
       browserName: 'firefox',
       platform: 'WIN7',
@@ -98,14 +97,15 @@ module.exports = function (grunt) {
       platform: 'WIN8',
       version: 37
     },
-  
+
     {
       browserName: 'firefox',
       platform: 'WIN8.1',
       version: 37
     }
-  
+
   ]);
+
  
 //   ['7','6'].forEach(function (val) {
 //      browsers.push({
