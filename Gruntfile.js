@@ -38,7 +38,7 @@ module.exports = function (grunt) {
 
   //  CHROME
       
-   ['dev', 'beta', '42', '41', '38', '28'].forEach(function (version) {
+   ['42', '28'].forEach(function (version) {
 
      ['WIN7', 'WIN8.1', 'WIN8', 'XP'].forEach(function (platform) {
 
