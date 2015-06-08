@@ -1,16 +1,12 @@
 
 ###
 
- sync events are fired at these times
- page loads
- storage event
- page unload?
- tab crashed?
- TODOS!!
- 
- IE8兼容性问题,IE8下 storage event不是 window而是 document，
- 而且 没有Event key http://jsfiddle.net/rodneyrehm/bAhJL/
+Easy browser tab events fireing and receiving.
 
+Basic features are:
+
+callback will be fired only once across all tabs
+one tab emit event, other tabs received
 ###
 
 tabHub = do ->
@@ -76,34 +72,42 @@ tabHub = do ->
 		if IE8 then addCookie("readable:#{guid}")
 		localStorage.setItem(name, "readable:#{guid}")
 		
-		# use timeout here to manually trigger async method
-		# because this will be run after other tabs update result
+		if callback?
 		
-		$(document).ready(->
+			$(document).ready(->
+				
+				# use timeout here to manually trigger async method
+				# because this will be run after other tabs update result
+				setTimeout(->
+		
+					regeisterEvents()
+					
+					if emitTimes > 0 then return
+					
+					if eventArr = localStorage.getItem(name)?.split(':')
+						#console.log eventArr
+						if eventArr[0] is 'data'
+							 
+							out.lastValue = eventArr[2]
+							for onValuecb in onValueArr
+								onValuecb.call(null, eventArr[2])
+								return
+					callback(emit)
+					
+					# remove noop function
+					if IE8 then $(document).off('storage.noop')
+					else $(window).off('storage.noop')
 			
-			setTimeout(->
-	
+				, #if IE8 then 150 else 
+				100)
+			)
+			
+		else 
+			$(document).ready(->
 				regeisterEvents()
-				
-				if emitTimes > 0 then return
-				
-				if eventArr = localStorage.getItem(name)?.split(':')
-					#console.log eventArr
-					if eventArr[0] is 'data'
-						 
-						out.lastValue = eventArr[2]
-						for onValuecb in onValueArr
-							onValuecb.call(null, eventArr[2])
-							return
-				callback(emit)
-				
-				# remove noop function
 				if IE8 then $(document).off('storage.noop')
 				else $(window).off('storage.noop')
-		
-			, #if IE8 then 150 else 
-			100)
-		)
+			)
 		
 
 		regeisterEvents = ->	
@@ -129,6 +133,8 @@ tabHub = do ->
 								
 						when 'data'
 							if eventData?
+								# update lastValue
+								out.lastValue = eventData
 								for onValuecb in onValueArr
 									onValuecb.call(null, eventData)
 			
@@ -161,6 +167,8 @@ tabHub = do ->
 				
 						when 'data'
 							if eventData?
+								# update lastValue
+								out.lastValue = eventData
 								for onValuecb in onValueArr
 									onValuecb.call(null, eventData)
 			
@@ -206,6 +214,8 @@ tabHub = do ->
 									
 							when 'data'
 								if eventData?
+									# update lastValue
+									out.lastValue = eventData
 									for onValuecb in onValueArr
 										onValuecb.call(null, eventData)
 

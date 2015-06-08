@@ -2,15 +2,12 @@
 
 /*
 
- sync events are fired at these times
- page loads
- storage event
- page unload?
- tab crashed?
- TODOS!!
- 
- IE8兼容性问题,IE8下 storage event不是 window而是 document，
- 而且 没有Event key http://jsfiddle.net/rodneyrehm/bAhJL/
+Easy browser tab events fireing and receiving.
+
+Basic features are:
+
+callback will be fired only once across all tabs
+one tab emit event, other tabs received
  */
 var tabHub;
 
@@ -74,31 +71,42 @@ tabHub = (function() {
       addCookie("readable:" + guid);
     }
     localStorage.setItem(name, "readable:" + guid);
-    $(document).ready(function() {
-      return setTimeout(function() {
-        var eventArr, i, len, onValuecb, ref;
-        regeisterEvents();
-        if (emitTimes > 0) {
-          return;
-        }
-        if (eventArr = (ref = localStorage.getItem(name)) != null ? ref.split(':') : void 0) {
-          if (eventArr[0] === 'data') {
-            out.lastValue = eventArr[2];
-            for (i = 0, len = onValueArr.length; i < len; i++) {
-              onValuecb = onValueArr[i];
-              onValuecb.call(null, eventArr[2]);
-              return;
+    if (callback != null) {
+      $(document).ready(function() {
+        return setTimeout(function() {
+          var eventArr, i, len, onValuecb, ref;
+          regeisterEvents();
+          if (emitTimes > 0) {
+            return;
+          }
+          if (eventArr = (ref = localStorage.getItem(name)) != null ? ref.split(':') : void 0) {
+            if (eventArr[0] === 'data') {
+              out.lastValue = eventArr[2];
+              for (i = 0, len = onValueArr.length; i < len; i++) {
+                onValuecb = onValueArr[i];
+                onValuecb.call(null, eventArr[2]);
+                return;
+              }
             }
           }
-        }
-        callback(emit);
+          callback(emit);
+          if (IE8) {
+            return $(document).off('storage.noop');
+          } else {
+            return $(window).off('storage.noop');
+          }
+        }, 100);
+      });
+    } else {
+      $(document).ready(function() {
+        regeisterEvents();
         if (IE8) {
           return $(document).off('storage.noop');
         } else {
           return $(window).off('storage.noop');
         }
-      }, 100);
-    });
+      });
+    }
     regeisterEvents = function() {
       var handler, handlerFn, ie8Handler, ieHandler;
       handler = function(e) {
@@ -117,6 +125,7 @@ tabHub = (function() {
               break;
             case 'data':
               if (eventData != null) {
+                out.lastValue = eventData;
                 results = [];
                 for (i = 0, len = onValueArr.length; i < len; i++) {
                   onValuecb = onValueArr[i];
@@ -153,6 +162,7 @@ tabHub = (function() {
               break;
             case 'data':
               if (eventData != null) {
+                out.lastValue = eventData;
                 results = [];
                 for (i = 0, len = onValueArr.length; i < len; i++) {
                   onValuecb = onValueArr[i];
@@ -198,6 +208,7 @@ tabHub = (function() {
               break;
             case 'data':
               if (eventData != null) {
+                out.lastValue = eventData;
                 results = [];
                 for (i = 0, len = onValueArr.length; i < len; i++) {
                   onValuecb = onValueArr[i];
