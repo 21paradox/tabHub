@@ -110,7 +110,7 @@ tabHub = (function() {
     regeisterEvents = function() {
       var handler, handlerFn, ie8Handler, ieHandler;
       handler = function(e) {
-        var eventArr, eventData, eventType, i, key, len, newValue, onValuecb, results;
+        var eventArr, eventData, eventType, i, key, len, newValue, onValuecb;
         key = e.originalEvent.key;
         newValue = localStorage.getItem(name);
         if (key === name && newValue === e.originalEvent.newValue) {
@@ -125,19 +125,17 @@ tabHub = (function() {
               break;
             case 'data':
               if (eventData != null) {
-                out.lastValue = eventData;
-                results = [];
                 for (i = 0, len = onValueArr.length; i < len; i++) {
                   onValuecb = onValueArr[i];
-                  results.push(onValuecb.call(null, eventData));
+                  onValuecb.call(null, eventData);
                 }
-                return results;
+                return out.lastValue = eventData;
               }
           }
         }
       };
       ieHandler = function(e) {
-        var eventArr, eventData, eventGuid, eventType, i, key, len, newValue, onValuecb, results;
+        var eventArr, eventData, eventGuid, eventType, i, key, len, newValue, onValuecb;
         key = e.originalEvent.key;
         newValue = e.originalEvent.newValue;
         if (key === name) {
@@ -162,13 +160,11 @@ tabHub = (function() {
               break;
             case 'data':
               if (eventData != null) {
-                out.lastValue = eventData;
-                results = [];
                 for (i = 0, len = onValueArr.length; i < len; i++) {
                   onValuecb = onValueArr[i];
-                  results.push(onValuecb.call(null, eventData));
+                  onValuecb.call(null, eventData);
                 }
-                return results;
+                return out.lastValue = eventData;
               }
           }
         }
@@ -179,7 +175,7 @@ tabHub = (function() {
         					getCookie
         					https://developer.mozilla.org/en-US/docs/Web/API/document/cookie
          */
-        var eventArr, eventData, eventGuid, eventType, i, len, newValue, onValuecb, results;
+        var eventArr, eventData, eventGuid, eventType, i, len, newValue, onValuecb;
         newValue = document.cookie.replace(RegExp("(?:(?:^|.*;\\s*)tabHub_emit_" + name + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1");
         if (newValue) {
           eventArr = newValue.split(':');
@@ -208,13 +204,11 @@ tabHub = (function() {
               break;
             case 'data':
               if (eventData != null) {
-                out.lastValue = eventData;
-                results = [];
                 for (i = 0, len = onValueArr.length; i < len; i++) {
                   onValuecb = onValueArr[i];
-                  results.push(onValuecb.call(null, eventData));
+                  onValuecb.call(null, eventData);
                 }
-                return results;
+                return out.lastValue = eventData;
               }
           }
         }

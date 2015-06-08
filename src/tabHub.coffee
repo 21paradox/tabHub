@@ -133,10 +133,10 @@ tabHub = do ->
 								
 						when 'data'
 							if eventData?
-								# update lastValue
-								out.lastValue = eventData
 								for onValuecb in onValueArr
 									onValuecb.call(null, eventData)
+								# update lastValue
+								out.lastValue = eventData
 			
 			
 			ieHandler = (e) ->
@@ -167,10 +167,10 @@ tabHub = do ->
 				
 						when 'data'
 							if eventData?
-								# update lastValue
-								out.lastValue = eventData
 								for onValuecb in onValueArr
 									onValuecb.call(null, eventData)
+								# update lastValue
+								out.lastValue = eventData
 			
 			
 			ie8Handler = (e) ->
@@ -214,10 +214,10 @@ tabHub = do ->
 									
 							when 'data'
 								if eventData?
-									# update lastValue
-									out.lastValue = eventData
 									for onValuecb in onValueArr
 										onValuecb.call(null, eventData)
+									# update lastValue
+									out.lastValue = eventData
 
 			# IE8
 			if IE8
