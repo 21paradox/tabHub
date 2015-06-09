@@ -20,7 +20,7 @@ tabHub = (function() {
   var guid;
   guid = ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4);
   return function(name, callback) {
-    var IE, IE8, addCookie, emit, emitTimes, noop, onValueArr, out, regeisterEvents;
+    var IE, IE8, addCookie, emit, emitTimes, noop, onValueArr, out, registerEvents;
     IE = navigator.userAgent.indexOf("MSIE ") > -1 || navigator.userAgent.indexOf("Trident/") > -1;
     IE8 = 'onstorage' in document && IE;
 
@@ -67,15 +67,15 @@ tabHub = (function() {
     } else {
       $(window).on('storage.noop', noop);
     }
-    if (IE8) {
-      addCookie("readable:" + guid);
-    }
-    localStorage.setItem(name, "readable:" + guid);
     if (callback != null) {
+      if (IE8) {
+        addCookie("readable:" + guid);
+      }
+      localStorage.setItem(name, "readable:" + guid);
       $(document).ready(function() {
         return setTimeout(function() {
           var eventArr, i, len, onValuecb, ref;
-          regeisterEvents();
+          registerEvents();
           if (emitTimes > 0) {
             return;
           }
@@ -99,7 +99,7 @@ tabHub = (function() {
       });
     } else {
       $(document).ready(function() {
-        regeisterEvents();
+        registerEvents();
         if (IE8) {
           return $(document).off('storage.noop');
         } else {
@@ -107,7 +107,7 @@ tabHub = (function() {
         }
       });
     }
-    regeisterEvents = function() {
+    registerEvents = function() {
       var handler, handlerFn, ie8Handler, ieHandler;
       handler = function(e) {
         var eventArr, eventData, eventType, i, key, len, newValue, onValuecb;

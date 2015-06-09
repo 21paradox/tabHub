@@ -34,8 +34,6 @@ tabHub = do ->
 			date = new Date()
 			date.setTime(date.getTime() + 1000)
 			document.cookie = "tabHub_emit_#{name}=#{val}; expires=#{date.toUTCString()}; path=/"
-			#document.cookie = "tabHub_emit_key=#{name}; expires=#{date.toUTCString()}; path=/"	
-			#document.cookie = "tabHub_emit_val=#{val}; expires=#{date.toUTCString()}; path=/"	
 	
 		# count the emit times
 		emitTimes = 0
@@ -69,18 +67,19 @@ tabHub = do ->
 		if IE8 then $(document).on('storage.noop', noop)
 		else $(window).on('storage.noop', noop)
 		
-		if IE8 then addCookie("readable:#{guid}")
-		localStorage.setItem(name, "readable:#{guid}")
-		
 		if callback?
-		
+			# ie8 add cookie
+			if IE8 then addCookie("readable:#{guid}")
+			# reset state to readable
+			localStorage.setItem(name, "readable:#{guid}")
+			
 			$(document).ready(->
 				
 				# use timeout here to manually trigger async method
 				# because this will be run after other tabs update result
 				setTimeout(->
 		
-					regeisterEvents()
+					registerEvents()
 					
 					if emitTimes > 0 then return
 					
@@ -104,13 +103,13 @@ tabHub = do ->
 			
 		else 
 			$(document).ready(->
-				regeisterEvents()
+				registerEvents()
 				if IE8 then $(document).off('storage.noop')
 				else $(window).off('storage.noop')
 			)
 		
 
-		regeisterEvents = ->	
+		registerEvents = ->	
 			# register storage event
 			
 			handler = (e) ->
