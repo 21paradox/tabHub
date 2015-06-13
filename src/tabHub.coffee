@@ -103,11 +103,12 @@ tabHub = do ->
 			
 		else 
 			$(document).ready(->
-				registerEvents()
-				if IE8 then $(document).off('storage.noop')
-				else $(window).off('storage.noop')
+				(setImmediate ? setTimeout)(->
+					registerEvents()
+					if IE8 then $(document).off('storage.noop')
+					else $(window).off('storage.noop')
+				)
 			)
-		
 
 		registerEvents = ->	
 			# register storage event
@@ -158,11 +159,11 @@ tabHub = do ->
 							# if other tab have lastValue then set data Event
 							if out.lastValue? 
 								# if not using setTimeout localStorage.getItem will be blocked execution
-								setTimeout(->
+								(setImmediate ? setTimeout)(->
 									safeGet = localStorage.getItem(name)
 									if safeGet? and safeGet.split(':')['0'] is 'readable'
 										localStorage.setItem(name, "data:#{guid}:#{out.lastValue}")					
-								, 0)
+								)
 				
 						when 'data'
 							if eventData?

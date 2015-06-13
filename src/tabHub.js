@@ -99,12 +99,14 @@ tabHub = (function() {
       });
     } else {
       $(document).ready(function() {
-        registerEvents();
-        if (IE8) {
-          return $(document).off('storage.noop');
-        } else {
-          return $(window).off('storage.noop');
-        }
+        return (typeof setImmediate !== "undefined" && setImmediate !== null ? setImmediate : setTimeout)(function() {
+          registerEvents();
+          if (IE8) {
+            return $(document).off('storage.noop');
+          } else {
+            return $(window).off('storage.noop');
+          }
+        });
       });
     }
     registerEvents = function() {
@@ -149,13 +151,13 @@ tabHub = (function() {
           switch (eventType) {
             case 'readable':
               if (out.lastValue != null) {
-                return setTimeout(function() {
+                return (typeof setImmediate !== "undefined" && setImmediate !== null ? setImmediate : setTimeout)(function() {
                   var safeGet;
                   safeGet = localStorage.getItem(name);
                   if ((safeGet != null) && safeGet.split(':')['0'] === 'readable') {
                     return localStorage.setItem(name, "data:" + guid + ":" + out.lastValue);
                   }
-                }, 0);
+                });
               }
               break;
             case 'data':
