@@ -70,10 +70,6 @@ hub.onValue(function(data) {
 
 ```
 
-### amd，commonjs, cmd?
-not yet support. 
-You can `wrap` your self.
-
 
 ### Contribute
 Contributions are very very welcome!!!
