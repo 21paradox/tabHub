@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Tabhub by 21paradox</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Tabhub</h1>
+        <p>Easy browser communicating across tabs</p>
+
+        <p class="view"><a href="https://github.com/21paradox/tabHub">View the Project on GitHub <small>21paradox/tabHub</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/21paradox/tabHub/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/21paradox/tabHub/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/21paradox/tabHub">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="tabhub-" class="anchor" href="#tabhub-" aria-hidden="true"><span class="octicon octicon-link"></span></a>tabHub <a href="https://travis-ci.org/21paradox/tabHub"><img src="https://travis-ci.org/21paradox/tabHub.svg?branch=master" alt="Build Status"></a>
+</h1>
+
+<p><a href="https://saucelabs.com/u/21paradox_test"><img src="https://saucelabs.com/browser-matrix/21paradox_test.svg" alt="Sauce Test Status"></a></p>
+
+<p>Easy browser tab events fireing and receiving.</p>
+
+<p>Basic features are:</p>
+
+<ul>
+<li>callback will be fired <code>only once</code> across all tabs</li>
+<li>one tab emit event, other tabs received</li>
+</ul>
+
+<p><strong>remind</strong>：this project requires <code>jquery</code> !!</p>
+
+<h3>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> hub <span class="pl-k">=</span> tabHub(<span class="pl-s"><span class="pl-pds">'</span>event1<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">emit</span>) {
+    <span class="pl-c">// this callback will no longer be fired if other tab already fired this</span>
+    $.get(<span class="pl-s"><span class="pl-pds">'</span>/api<span class="pl-pds">'</span></span>).done(<span class="pl-k">function</span>(<span class="pl-smi">data</span>){
+       emit(data);
+    });
+});
+
+hub.onValue(<span class="pl-k">function</span>(<span class="pl-smi">data</span>) {
+    <span class="pl-k">if</span>(data <span class="pl-k">==</span> <span class="pl-s"><span class="pl-pds">'</span>sync<span class="pl-pds">'</span></span>){
+     <span class="pl-c">//do something</span>
+    }
+});
+
+<span class="pl-c">//any where else need to brocast through tabs</span>
+$(<span class="pl-s"><span class="pl-pds">'</span>xxx<span class="pl-pds">'</span></span>).<span class="pl-c1">click</span>(<span class="pl-k">function</span>(){
+   hub.emit(<span class="pl-s"><span class="pl-pds">'</span>sync<span class="pl-pds">'</span></span>)
+})
+</pre></div>
+
+<h2>
+<a id="api" class="anchor" href="#api" aria-hidden="true"><span class="octicon octicon-link"></span></a>API</h2>
+
+<h3>
+<a id="tabhubeventsname-callback" class="anchor" href="#tabhubeventsname-callback" aria-hidden="true"><span class="octicon octicon-link"></span></a>tabHub('eventsName', callback)</h3>
+
+<p>register cross tabs events.</p>
+
+<ol>
+<li>
+<code>eventsName</code> must be unique.</li>
+<li>once the emit function called, callback will <code>no longer</code> be fired.</li>
+<li>you should call emit with <code>string</code>, because it will go to localstorage.</li>
+<li>your emit should not containg <code>:</code>, because i use <code>:</code> to seperate.</li>
+</ol>
+
+<h3>
+<a id="hubonvaluecallback" class="anchor" href="#hubonvaluecallback" aria-hidden="true"><span class="octicon octicon-link"></span></a>hub.onValue(callback)</h3>
+
+<ol>
+<li>this callback will be fired <code>more</code> than you think</li>
+<li>hub.onValue(cb) returned a function for deregister events</li>
+</ol>
+
+<h3>
+<a id="hubemitstring" class="anchor" href="#hubemitstring" aria-hidden="true"><span class="octicon octicon-link"></span></a>hub.emit('string')</h3>
+
+<ol>
+<li>emit a cross tab events</li>
+<li>emit function inside calback is also the same</li>
+</ol>
+
+<h3>
+<a id="hublastvalue" class="anchor" href="#hublastvalue" aria-hidden="true"><span class="octicon octicon-link"></span></a>hub.lastValue</h3>
+
+<p>get the lastValue that emited</p>
+
+<h3>
+<a id="hubdestory" class="anchor" href="#hubdestory" aria-hidden="true"><span class="octicon octicon-link"></span></a>hub.destory()</h3>
+
+<p>remove all this instance listeners.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> hub <span class="pl-k">=</span> tabHub(<span class="pl-s"><span class="pl-pds">'</span>myVal_spec1<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">emit</span>) {
+});
+
+hub.onValue(<span class="pl-k">function</span>(<span class="pl-smi">data</span>) {
+
+});
+
+</pre></div>
+
+<h3>
+<a id="contribute" class="anchor" href="#contribute" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contribute</h3>
+
+<p>Contributions are very very welcome!!!</p>
+
+<h1>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p><a href="LICENSE">The X11 (“MIT”) License</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/21paradox">21paradox</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
